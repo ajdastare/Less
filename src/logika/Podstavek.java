@@ -24,17 +24,20 @@ public class Podstavek {
 	//METODE
 	public void rotiraj(int n) {
 		//spremeni obliko podstavka z n-kratnim rotiranjem v desno
+		oblika = n;
 		int[][] ograja1 = new int[4][4];
+		int[][] ograja2 = new int[4][4];
 		int m = 4;
-		for (int i=0; i<m; ++i) {
-			for (int j=0; j<m; j++) {
+		for (int i=0; i<m; ++i) { //po malih poljih
+			for (int j=0; j<m; j++) { //ograje znotraj polj
+				//rotiramo ograje
 				if (j+n<m) ograja1[i][j+n] = ograje[i][j];
 				else ograja1[i][n-(m-j)] = ograje[i][j];
 			}
-			if (i+n<m) ograja1[i+n] = ograja1[i];
-			else ograja1[n-(m-i)]= ograja1[i];
+			if (i+n<m) ograja2[i+n] = ograja1[i];
+			else ograja2[n-(m-i)]= ograja1[i];
 		}
-		ograje = ograja1;
+		ograje = ograja2;
 	}
 	
 	public String toString() {

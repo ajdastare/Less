@@ -43,11 +43,11 @@ public class GlavnoOkno extends JFrame implements ActionListener {
 	private JMenuItem igraRacunalnikClovek;
 
 	/**
-	 * Ustvari novo glavno okno in priÄni igrati igro.
+	 * Ustvari novo glavno okno in pricni igrati igro.
 	 */
 	public GlavnoOkno() {
 		
-		this.setTitle("Tic tac toe");
+		this.setTitle("Less");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setLayout(new GridBagLayout());
 		
@@ -79,7 +79,7 @@ public class GlavnoOkno extends JFrame implements ActionListener {
 		polje_layout.weighty = 1.0;
 		getContentPane().add(polje, polje_layout);
 		
-		// statusna vrstica za sporoÄila
+		// statusna vrstica za sporocila
 		status = new JLabel();
 		status.setFont(new Font(status.getFont().getName(),
 							    status.getFont().getStyle(),
@@ -90,7 +90,7 @@ public class GlavnoOkno extends JFrame implements ActionListener {
 		status_layout.anchor = GridBagConstraints.CENTER;
 		getContentPane().add(status, status_layout);
 		
-		// zaÄnemo novo igro Äloveka proti raÄunalniku
+		// zacnemo novo igro cloveka proti racunalniku
 		
 		//vodja.novaIgra(Igralec.B);
 	}

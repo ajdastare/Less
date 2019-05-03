@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import logika.Vodja;
 import logika.Igra;
 import logika.Polje;
-import logika.Vrsta;
+import logika.Kot;
 import logika.Poteza;
 import logika.Podstavek;
 
@@ -87,56 +87,42 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 		double r = w * (1.0 - LINE_WIDTH - 2.0 * PADDING); // premer O
 		double x = w * (i + 0.5 * LINE_WIDTH + PADDING);
 		double y = w * (j + 0.5 * LINE_WIDTH + PADDING);
-		g2.setColor(Color.gray);
+		g2.setColor(Color.DARK_GRAY);
 		g2.setStroke(new BasicStroke((float) (w * LINE_WIDTH)));
 		g2.fillOval((int)x, (int)y, (int)r , (int)r);
 		g2.drawOval((int)x, (int)y, (int)r , (int)r);
 	}
 	
-	private void narisiOgraje(Graphics2D g2, int[] ograje, int zacetekX, int zacetekY) {
+	private void narisiOgraje(Graphics2D g2, int[] ograje, double zacetekX, double zacetekY) {
+		//rise ograje enega polja znotraj podstavka, zacetekX in zacetekY sta koordinati 
+		//spodnjega levega kota, od katerega naprej risemo
 		double h = squareWidth()/2;
-		g2.setColor(Color.red);
-		for (int i=0; i<ograje.length; i++) {
-			if (ograje[0] == 1) {	
-					g2.drawLine((int)(zacetekX),
-						    (int)(zacetekY + h),
-						    (int)(zacetekX + h),
-						    (int)(zacetekY + h));
-					
+		g2.setColor(Color.RED);
+		double[] x1_koor = {zacetekX, zacetekX + h, zacetekX + h, zacetekX};
+		double[] x2_koor = {zacetekX + h, zacetekX + h, zacetekX, zacetekX};
+		double[] y1_koor = {zacetekY + h, zacetekY + h, zacetekY, zacetekY};
+		double[] y2_koor = {zacetekY + h, zacetekY, zacetekY, zacetekY + h};
+		for (int i = 0; i<ograje.length; i++) {
+			if (ograje[i] != 0) {
+				g2.setStroke(new BasicStroke((float) (h * LINE_WIDTH * 3 * ograje[i])));
+				g2.drawLine((int)(x1_koor[i]),
+					    (int)(y1_koor[i]),
+					    (int)(x2_koor[i]),
+					    (int)(y2_koor[i]));
 			}
-			if (ograje[1] == 1) {	
-				g2.drawLine((int)(zacetekX + h),
-					    (int)(zacetekY + h),
-					    (int)(zacetekX + h),
-					    (int)(zacetekY + 0));
 		}
-			if (ograje[2] == 1) {	
-				g2.drawLine((int)(zacetekX + h),
-					    (int)(zacetekY + 0),
-					    (int)(zacetekX +0),
-					    (int)(zacetekY));		
-		}
-			if (ograje[3] == 1) {	
-				g2.drawLine((int)(zacetekX + 0),
-					    (int)(zacetekY),
-					    (int)(zacetekX + 0),
-					    (int)(zacetekY + h));
-				
-		}
-		}
-		
 	}
 	
-	public void narisiPodstavek(Graphics2D g2, int[][] podstavek, int zaceteX, int zacetekY) {
-		int h = (int) squareWidth()/2;
+
+	
+	public void narisiPodstavek(Graphics2D g2, int[][] podstavek, double zaceteX, double zacetekY) {
+		double h = squareWidth()/2;
 		g2.setColor(Color.red);
-		int i = 3;
-		int[] x_os = {zaceteX,zaceteX+h,zaceteX+h,zaceteX};
-		int[] y_os = {zacetekY,zacetekY,zacetekY+h,zacetekY+h};
-		while (i>=0) {
+		double[] x_os = {zaceteX, zaceteX + h, zaceteX + h, zaceteX};
+		double[] y_os = {zacetekY + h, zacetekY + h, zacetekY, zacetekY};
+		for (int i=0; i<4; ++i) {
 			int[] ograje = podstavek[i];
 			narisiOgraje(g2, ograje, x_os[i], y_os[i]);
-			i -= 1;
 		}
 	}
 	
@@ -145,7 +131,7 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D)g;
 
-		int w = (int)squareWidth();
+		double w = squareWidth();
 
 		// ce imamo zmagovalni kot, njegovo ozadje pobarvamo
 //		Vrsta t = null;
@@ -161,7 +147,7 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 		
 		
 		// crte
-		g2.setColor(Color.black);
+		g2.setColor(Color.gray);
 		g2.setStroke(new BasicStroke((float) (w * LINE_WIDTH*2)));
 		for (int i = 0; i < Math.sqrt(Igra.N)+1; i++) {
 			g2.drawLine((int)(i * w),
@@ -173,7 +159,7 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 					    (int)(Math.sqrt(Igra.N) * w),
 					    (int)(i * w));
 		}
-		g2.setStroke(new BasicStroke((float) (w * LINE_WIDTH*0.9)));
+		g2.setStroke(new BasicStroke((float) (w * LINE_WIDTH * 0.9)));
 		for (int j = 0; j<Math.sqrt(Igra.N); ++j) {
 			g2.drawLine((int)(j * w + w/2),
 				    	(int)(0),
@@ -187,16 +173,14 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 		}
 		
 		//nastavljanje izgleda izzrebanih podstavkov
-//		g2.setColor(Color.red);
-//		g2.setStroke(new BasicStroke((float) (w * LINE_WIDTH*1.3)));
-//		int[] x_os = {0,0,0,1,1,1,2,2,2};
-//		int[] y_os = {0,1,2,0,1,2,0,1,2};
-//		int d = 8;
-//		while (d>=0) {
-//			int[][] plosca = Igra.podatki[d];
-//			narisiPodstavek(g2, Igra.podatki[d], x_os[d], y_os[d]);
-//			d -= 1;
-//		}
+		//g2.setColor(Color.red);
+		//g2.setStroke(new BasicStroke((float) (w * LINE_WIDTH*1.3)));
+		double[] x_os = {0,0,0,w,w,w,2*w,2*w,2*w};
+		double[] y_os = {2*w,1*w,0,2*w,1*w,0,2*w,1*w,0};
+		for (int d=0; d<9; d++) {
+			int[][] plosca = Igra.podatki[d];
+			narisiPodstavek(g2, plosca, x_os[d], y_os[d]);
+		}
 			
 		
 		System.out.println(vodja);

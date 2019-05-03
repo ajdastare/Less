@@ -2,7 +2,7 @@ package logika;
 
 /**
  * @author AS
- * MoŞni igralci.
+ * Mozni igralci.
  */
 
 public enum Igralec {

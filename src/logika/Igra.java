@@ -113,8 +113,7 @@ public class Igra {
 				podatki[i-3][2][1] = vr4;
 		}
 		}
-		
-		for (int i=0; i<5; ++i) {
+		for (int i=0; i<4; ++i) {
 			koti[i] = false;
 		}
 		
@@ -177,7 +176,7 @@ public class Igra {
 	 * @param t
 	 * @return igralec, ki ima zapolnjeno vrsto @{t}, ali {@null}, Äe nihÄe
 	 */
-	private Igralec cigavaVrsta(Vrsta t) {
+	private Igralec cigavKot(Kot t) {
 		int count_C = 0;
 		int count_B = 0;
 		for (int k = 0; k < N && (count_C == 0 || count_B == 0); k++) {
@@ -193,10 +192,10 @@ public class Igra {
 	}
 
 	/**
-	 * @return zmagovalna vrsta, ali {@null}, Äe je ni
+	 * @return zmagovalni kot, ali {@null}, ce ga ni
 	 */
 //	public Vrsta zmagovalnaPoteza() {
-//		for (Vrsta t : VRSTE) {
+//		for (Kot t : koti) {
 //			Igralec lastnik = cigavaVrsta(t);
 //			if (lastnik != null) { return t; }
 //		}
