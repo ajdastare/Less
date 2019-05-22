@@ -54,8 +54,8 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 	/**
 	 * @return sirina enega kvadratka
 	 */
-	private double squareWidth() {
-		return Math.min(getWidth(), getHeight()) / Math.sqrt(Igra.N);
+	private int squareWidth() {
+		return (int) (Math.min(getWidth(), getHeight()) / Math.sqrt(Igra.N));
 	}
 	
 	/**
@@ -65,15 +65,17 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 	 * @param i
 	 * @param j
 	 */
+	
 	private void paintC(Graphics2D g2, int i, int j) {
-		double w = squareWidth();
-		double r = w * (1.0 - LINE_WIDTH - 2.0 * PADDING); // premer O
-		double x = w * (i + 0.5 * LINE_WIDTH + PADDING);
-		double y = w * (j + 0.5 * LINE_WIDTH + PADDING);
+		int w = squareWidth();
+		double r = w /2 - 2* 6*w/2 *LINE_WIDTH ; // premer O
+		double x = i+6*w/2 *LINE_WIDTH;
+		double y = j + 6*w/2 *LINE_WIDTH;
 		g2.setColor(Color.black);
-		g2.setStroke(new BasicStroke((float) (w * LINE_WIDTH)));
+		g2.setStroke(new BasicStroke((float)(w * LINE_WIDTH), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 		g2.fillOval((int)x, (int)y, (int)r , (int)r);
 		g2.drawOval((int)x, (int)y, (int)r , (int)r);
+		
 	}
 	
 	/**
@@ -83,12 +85,12 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 	 * @param j
 	 */
 	private void paintB(Graphics2D g2, int i, int j) {
-		double w = squareWidth();
-		double r = w * (1.0 - LINE_WIDTH - 2.0 * PADDING); // premer O
-		double x = w * (i + 0.5 * LINE_WIDTH + PADDING);
-		double y = w * (j + 0.5 * LINE_WIDTH + PADDING);
-		g2.setColor(Color.DARK_GRAY);
-		g2.setStroke(new BasicStroke((float) (w * LINE_WIDTH)));
+		int w = squareWidth();
+		double r = w/2- 2* 6*w/2 *LINE_WIDTH;// premer O
+		double x = i + 6*w/2 *LINE_WIDTH;
+		double y = j + 6*w/2 *LINE_WIDTH;
+		g2.setColor(Color.ORANGE);
+		g2.setStroke(new BasicStroke((float) (w * LINE_WIDTH), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 		g2.fillOval((int)x, (int)y, (int)r , (int)r);
 		g2.drawOval((int)x, (int)y, (int)r , (int)r);
 	}
@@ -125,13 +127,14 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 			narisiOgraje(g2, ograje, x_os[i], y_os[i]);
 		}
 	}
+
 	
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D)g;
 
-		double w = squareWidth();
+		int w = squareWidth();
 
 		// ce imamo zmagovalni kot, njegovo ozadje pobarvamo
 //		Vrsta t = null;
@@ -175,11 +178,27 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 		//nastavljanje izgleda izzrebanih podstavkov
 		//g2.setColor(Color.red);
 		//g2.setStroke(new BasicStroke((float) (w * LINE_WIDTH*1.3)));
-		double[] x_os = {0,0,0,w,w,w,2*w,2*w,2*w};
-		double[] y_os = {2*w,1*w,0,2*w,1*w,0,2*w,1*w,0};
+		int h = w/2;
+		int[] x_os = {0,0,0,w,w,w,2*w,2*w,2*w};
+		int[] y_os = {2*w,1*w,0,2*w,1*w,0,2*w,1*w,0};
+		int[] X_os = {0,  h, h, 0};
+		int[] Y_os = { h,  h, 0, 0};
 		for (int d=0; d<9; d++) {
 			int[][] plosca = Igra.podatki[d];
 			narisiPodstavek(g2, plosca, x_os[d], y_os[d]);
+			if (d == 0) {
+				for (int i=0; i<4; i++) {
+					paintB(g2,x_os[d]+X_os[i],y_os[d]+Y_os[i]);
+				}
+				
+			}
+			if (d == 8) {
+				for (int i=0; i<4; i++) {
+					paintC(g2,x_os[d]+X_os[i],y_os[d]+Y_os[i]);
+				}
+				
+			}
+			
 		}
 			
 		
@@ -187,16 +206,18 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 		
 		// kriĹžci in kroĹžci
 		Polje[][] plosca;;
+		
 		if (vodja.igra != null) {
 			plosca = vodja.igra.getPlosca();
+			System.out.println("Here we are"
+					);
 			for (int i = 0; i < Igra.N; i++) {
-				for (int j = 0; j < Igra.N; j++) {
-					switch(plosca[i][j]) {
-					case C: paintC(g2, i, j); break;
-					case B: paintB(g2, i, j); break;
+					switch(plosca[i][i]) {
+					case C: paintC(g2, x_os[i], y_os[i]); break;
+					case B: paintB(g2, x_os[i], y_os[i]); break;
 					default: break;
 					}
-				}
+				
 			}
 		}	
 	}

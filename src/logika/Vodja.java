@@ -26,54 +26,55 @@ public class Vodja {
 	public Igra igra;
 	
 	// Ali je Älovek O ali X?
-	private Igralec clovek;	
-	
-	public boolean clovekNaVrsti;
+	public Igralec beli;
+	public boolean naVrstiB;
+	public boolean naVrstiC;
+	//prej tu clovek na vrsti 
 		
 	public Vodja(GlavnoOkno okno) {
 		random = new Random();
 		this.okno = okno;
-		clovekNaVrsti = false;
+		naVrstiB = true;
 	}
-	
-//	public void novaIgra(Igralec clovek) {
+		public void novaIgra(Igralec beli) {
 //		// Ustvarimo novo igro
-//		this.igra = new Igra();
-//		this.clovek = clovek;
-//		igramo();
-//	}
+		this.igra = new Igra();
+		
+		this.beli = beli;
+		igramo();
+	}
 //	
-//	public void igramo () {
-//		okno.osveziGUI();
-//		switch (igra.stanje()) {
-//		case ZMAGA_B: 
-//		case ZMAGA_C: 
-//		case NEODLOCENO: 
-//			break;
-//		case NA_POTEZI_B:
-//		case NA_POTEZI_C: 
-//			if (igra.naPotezi == clovek) {
-//				clovekNaVrsti = true;
-//			} else {
-//				racunalnikovaPoteza();
-//			}			
-//		}
-//	}
+	public void igramo () {
+		okno.osveziGUI();
+		switch (igra.stanje()) {
+		case ZMAGA_B: 
+		case ZMAGA_C: 
+			case NEODLOCENO: 
+				break;
+		case NA_POTEZI_B:
+		case NA_POTEZI_C: 
+			if (igra.naPotezi == beli) {
+				naVrstiB = true;
+			} else {
+				racunalnikovaPoteza();
+			}			
+		}
+	}
 //	
-//	public void racunalnikovaPoteza() {
-//		List<OcenjenaPoteza> ocenjenePoteze = Minimax.oceniPoteze (igra, 2, clovek.nasprotnik());
-//		Poteza poteza = Minimax.maxPoteza(ocenjenePoteze);
-//		igra.odigraj(poteza);
-//		igramo();
-//	}
+	public void racunalnikovaPoteza() {
+		List<OcenjenaPoteza> ocenjenePoteze = Minimax.oceniPoteze (igra, 2, clovek.nasprotnik());
+		Poteza poteza = Minimax.maxPoteza(ocenjenePoteze);
+		igra.odigraj(poteza);
+		igramo();
+	}
 //	
-//	public void clovekovaPoteza(Poteza poteza) {
-//		if (igra.odigraj(poteza)) {
-//			clovekNaVrsti = false;	
-//			igramo();
-//		}
+	public void clovekovaPoteza(Poteza poteza) {
+		if (igra.odigraj(poteza)) {
+			clovekNaVrsti = false;	
+			igramo();
+		}
 //		
-//	}
+	}
 //	
 //	
 //

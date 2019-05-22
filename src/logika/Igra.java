@@ -77,6 +77,7 @@ public class Igra {
 			}
 			if (i == 3 || i == 6) {
 				//ko dodajamo podstavke, se morajo stroski prehodov spremeniti, ce so kaksne od ograj na robu podstavka
+				// sosednje moznosti Z,D,S,L
 				int vr3 = podatki[i][0][3] + podatki[i-3][1][1];
 				podatki[i][0][3] = vr3;  
 				podatki[i-3][1][1] = vr3;
@@ -132,24 +133,27 @@ public class Igra {
 				plosca[i][j] = Polje.PRAZNO;
 			}
 		}
+		plosca[0][0]= Polje.B;
+		// še ostale od 0- 4 in še za C nastavit ostale
 		naPotezi = Igralec.B;
 	}
 	
-	/**
-	 * Nova kopija dane igre
-	 * 
-	 * @param igra
-	 */
-	public Igra(Igra igra) {
-		plosca = new Polje[N][M];
-		for (int i = 0; i < N; i++) {
-			for (int j = 0; j < M; j++) {
-				plosca[i][j] = igra.plosca[i][j];
-			}
-		}
-		this.naPotezi = igra.naPotezi;
-	}
 	
+//	/**
+//	 * Nova kopija dane igre
+//	 * 
+//	 * @param igra
+//	 */
+//	public Igra(Igra igra) {
+//		plosca = new Polje[N][M];
+//		for (int i = 0; i < N; i++) {
+//			for (int j = 0; j < M; j++) {
+//				plosca[i][j] = igra.plosca[i][j];
+//			}
+//		}
+//		this.naPotezi = igra.naPotezi;
+//	}
+//	
 	/**
 	 * @return plosca polj (ne spreminjaj!)
 	 */
