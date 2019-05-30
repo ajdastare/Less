@@ -32,6 +32,8 @@ public class Igra {
 	
 	public static final int[][][] podatki = new int[N][M][4];
 	
+	public static final int[][][] matrika = new int[6][6][2];
+	
 	//koti so mesta (0,0)...(2,0)...(6,0)...(8,0)
 	//ce ima kaksen element vrednost true, pomeni, da so vsa mesta v kotu zapolnjena; [false, true, false, false] pomeni, da
 	//ima en izmed igralcev vse svoje figure na (2,0), (2,1), (2,3), (2,4).
@@ -116,6 +118,20 @@ public class Igra {
 		}
 		for (int i=0; i<4; ++i) {
 			koti[i] = false;
+		}
+		
+		//pretvarjanje podatkov v matriko x, y koordinat, ki vsebuje par števil za ograje zgoraj in levo
+		for (int i=0; i<N; i++) {
+			for (int j=0; j<M; j++) {
+				int[] ograje = new int[4];
+				ograje = podatki[i][j];
+				int[] zg_l = new int[2];
+				zg_l[0] = ograje[0];
+				zg_l[1] = ograje[3];
+				int t = 0;
+				if (j != 0) t = ((j + 3) % 3) / j;
+				matrika[(i - ((i + 3) % 3))* 2/3 + t][5 - 2 * ((i + 3) % 3) - (j -(j + 2) % 2)/2] = zg_l;
+			}
 		}
 		
 	}
