@@ -1,8 +1,8 @@
 package logika;
 
 public class Poteza {
-	private int x; //plosca (podstavek), vrednosti med 0 in 8
-	private int y; //stevilka polja (katero polje znotraj ploscice), vrednosti med 0 in 4
+	public static int x; //plosca (podstavek), vrednosti med 0 in 5
+	public static int y; //stevilka polja (katero polje znotraj ploscice), vrednosti med 0 in 5
 	
 	public Poteza(int x, int y) {
 		this.x = x;

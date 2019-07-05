@@ -92,38 +92,39 @@ public class GlavnoOkno extends JFrame implements ActionListener {
 		
 		// zacnemo novo igro cloveka proti racunalniku
 		
-		//vodja.novaIgra(Igralec.B);
+		vodja.novaIgra(Igralec.B);
 	}
 	
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-//		if (e.getSource() == igraClovekRacunalnik) {
-//			vodja.novaIgra(Igralec.B);
-//		}
-//		else if (e.getSource() == igraRacunalnikClovek) {
-//			vodja.novaIgra(Igralec.C);
-//		}
+		if (e.getSource() == igraClovekRacunalnik) {
+			vodja.novaIgra(Igralec.B);
+		}
+		else if (e.getSource() == igraRacunalnikClovek) {
+			vodja.novaIgra(Igralec.C);
+		}
 		
 	}
 
-//	public void osveziGUI() {
-//		if (vodja.igra == null) {
-//			status.setText("Igra ni v teku.");
-//		}
-//		else {
-//			switch(vodja.igra.stanje()) {
-//			case NA_POTEZI_B: status.setText("Na potezi je bela"); break;
-//			case NA_POTEZI_C: status.setText("Na potezi je črna"); break;
-//			case ZMAGA_B: status.setText("Zmagala je bela"); break;
-//			case ZMAGA_C: status.setText("Zmagala je črna"); break;
-//			case NEODLOCENO: status.setText("Neodločeno!"); break;
-//			}
-//		}
-//		polje.repaint();
-//	}
-//	
-//
+	public void osveziGUI() {
+		if (vodja.igra == null) {
+			status.setText("Igra ni v teku.");
+		}
+//		
+		else {
+			switch(vodja.igra.stanje()) {
+			case NA_POTEZI_B: status.setText("Na potezi je bela"); break;
+			case NA_POTEZI_C: status.setText("Na potezi je črna"); break;
+			case ZMAGA_B: status.setText("Zmagala je bela"); break;
+			case ZMAGA_C: status.setText("Zmagala je črna"); break;
+			case NEODLOCENO: status.setText("Neodločeno!"); break;
+			}
+		}
+		polje.repaint();
+	}
+	
+
 
 
 }

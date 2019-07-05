@@ -41,7 +41,7 @@ public class Vodja {
 		this.igra = new Igra();
 		
 		this.beli = beli;
-		igramo();
+//		igramo();
 	}
 //	
 	public void igramo () {
@@ -60,7 +60,7 @@ public class Vodja {
 			}			
 		}
 	}
-//	
+	
 	public void racunalnikovaPoteza() {
 		List<OcenjenaPoteza> ocenjenePoteze = Minimax.oceniPoteze (igra, 2, clovek.nasprotnik());
 		Poteza poteza = Minimax.maxPoteza(ocenjenePoteze);

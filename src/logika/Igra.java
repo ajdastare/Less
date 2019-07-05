@@ -121,6 +121,7 @@ public class Igra {
 		}
 		
 		//pretvarjanje podatkov v matriko x, y koordinat, ki vsebuje par števil za ograje zgoraj in levo
+		// kličeš matrika [0][0][0] za zgornjo ograjo na (0,0) 
 		for (int i=0; i<N; i++) {
 			for (int j=0; j<M; j++) {
 				int[] ograje = new int[4];
@@ -130,7 +131,8 @@ public class Igra {
 				zg_l[1] = ograje[3];
 				int t = 0;
 				if (j != 0) t = ((j + 3) % 3) / j;
-				matrika[(i - ((i + 3) % 3))* 2/3 + t][5 - 2 * ((i + 3) % 3) - (j -(j + 2) % 2)/2] = zg_l;
+				
+				matrika[(i - ((i + 3) % 3))* 2/3 + t][5- (5 - 2 * ((i + 3) % 3) - (j -(j + 2) % 2)/2)] = zg_l;
 			}
 		}
 		
@@ -143,15 +145,28 @@ public class Igra {
 	public Igra() {
 		//igralec B se odloci, v katerem kotu bo zacel. Ta kot se potem nastavi na B in nasprotni na C.
 		//Na zacetku so vsa mesta prazna.
-		plosca = new Polje[N][M];
-		for (int i = 0; i < N; i++) {
-			for (int j = 0; j < M; j++) {
+		plosca = new Polje[6][6];
+		for (int i = 0; i < 6; i++) {
+			for (int j = 0; j < 6; j++) {
 				plosca[i][j] = Polje.PRAZNO;
 			}
+			
 		}
+		
+//		
 		plosca[0][0]= Polje.B;
+		plosca[1][1]= Polje.B;
+		plosca[1][0]= Polje.B;
+		plosca[0][1] = Polje.B;
+		
+		plosca[4][4] = Polje.C;
+		plosca[4][5] = Polje.C;
+		plosca[5][4] = Polje.C;
+		plosca[5][5] = Polje.C;
+//		
 		// še ostale od 0- 4 in še za C nastavit ostale
 		naPotezi = Igralec.B;
+		
 	}
 	
 	
@@ -160,16 +175,19 @@ public class Igra {
 //	 * 
 //	 * @param igra
 //	 */
-//	public Igra(Igra igra) {
-//		plosca = new Polje[N][M];
-//		for (int i = 0; i < N; i++) {
-//			for (int j = 0; j < M; j++) {
-//				plosca[i][j] = igra.plosca[i][j];
-//			}
-//		}
-//		this.naPotezi = igra.naPotezi;
-//	}
+	public Igra(Igra igra) {
+		plosca = new Polje[6][6];
+		for (int i = 0; i < 6; i++) {
+			for (int j = 0; j < 6; j++) {
+				plosca[i][j] = igra.plosca[i][j];
+			}
+		}
 //	
+		this.naPotezi = igra.naPotezi;
+	}
+	
+	// tu dobimo kdo je na potezi 
+	
 	/**
 	 * @return plosca polj (ne spreminjaj!)
 	 */
@@ -180,10 +198,11 @@ public class Igra {
 	/**
 	 * @return seznam moznih potez
 	 */
+//	to so te poteze ki so še na voljo torej ni nobenega gor
 	public List<Poteza> poteze() {
 		LinkedList<Poteza> ps = new LinkedList<Poteza>();
-		for (int i = 0; i < N; i++) {
-			for (int j = 0; j < N; j++) {
+		for (int i = 0; i < 6; i++) {
+			for (int j = 0; j < 6; j++) {
 				if (plosca[i][j] == Polje.PRAZNO) {
 					ps.add(new Poteza(i, j));
 				}
@@ -192,63 +211,95 @@ public class Igra {
 		return ps;
 	}
 
-	/**
-	 * @param t
-	 * @return igralec, ki ima zapolnjeno vrsto @{t}, ali {@null}, Äe nihÄe
-	 */
-	private Igralec cigavKot(Kot t) {
+//	Igralec, ki ima zapolnjene kote nasprotnika - zmaga
+	// B začne v plosca [0][0-3] -> zmaga ko pride v kot plosca[8][0-3]
+	// parameter ? 
+	// vrne igralec ki ima zapolnjen kot, ali null če takega igralca ni 
+//	private Igralec cigavKot(Kot t) {
+//		int count_C = 0;
+//		int count_B = 0;
+//		for (int k = 0; k < N && (count_C == 0 || count_B == 0); k++) {
+//			switch (plosca[t.x[k]][t.y[k]]) {
+//			case B: count_B += 1; break;
+//			case C: count_C += 1; break;
+//			case PRAZNO: break;
+//			}
+//		}
+//		if (count_B == N) { return Igralec.B; }
+//		else if (count_C == N) { return Igralec.C; }
+//		else { return null; }
+//	}
+// NE VRNE PA ČE JE NEODLOČENO JE TREBA ŠE IZBOLJŠAT
+	private Igralec cigavKot() {
 		int count_C = 0;
 		int count_B = 0;
-		for (int k = 0; k < N && (count_C == 0 || count_B == 0); k++) {
-			switch (plosca[t.x[k]][t.y[k]]) {
-			case B: count_B += 1; break;
-			case C: count_C += 1; break;
+		// ker so nastavljeni koti po "defaultu" se ve kdaj kdo zmaga
+		// stetje za C 
+		for(int i = 0;i < 6 && (count_C <= 6|| count_B <= 6); i ++) {
+			switch(plosca[0][i]) {
+			case C: count_C += 1;break;
+			case B: break;
 			case PRAZNO: break;
+			
+			}
+			
+		}
+		for(int i = 0; i< M && (count_C <= 6 || count_B <= 6); i++) {
+			switch(plosca[8][i]) {
+			case C: break;
+			case B: count_B += 1;
+			case PRAZNO: break;
+			
 			}
 		}
-		if (count_B == N) { return Igralec.B; }
-		else if (count_C == N) { return Igralec.C; }
+		if (count_B == M) { return Igralec.B; }
+		else if (count_C == M) { return Igralec.C; }
 		else { return null; }
 	}
-
+	
+	
+	
+	
 	/**
 	 * @return zmagovalni kot, ali {@null}, ce ga ni
 	 */
-//	public Vrsta zmagovalnaPoteza() {
-//		for (Kot t : koti) {
-//			Igralec lastnik = cigavaVrsta(t);
-//			if (lastnik != null) { return t; }
-//		}
-//		return null;
-//	}
-//	
+
+// to vrne zmagovalca  ne pa kota 
+	public Igralec zmagovalnaPoteza() {
+			Igralec lastnik = cigavKot();
+			if (lastnik != null) { return lastnik; }
+		return null;
+	}
+	
 //	/**
 //	 * @return trenutno stanje igre
 //	 */
-//	public Stanje stanje() {
-//		// Ali imamo zmagovalca?
-//		Vrsta t = zmagovalnaVrsta();
-//		if (t != null) {
-//			switch (plosca[t.x[0]][t.y[0]]) {
-//			case O: return Stanje.ZMAGA_O; 
-//			case X: return Stanje.ZMAGA_X;
-//			case PRAZNO: assert false;
-//			}
-//		}
-//		// Ali imamo kakĹĄno prazno polje?
-//		// Äe ga imamo, igre ni konec in je nekdo na potezi
-//		for (int i = 0; i < N; i++) {
-//			for (int j = 0; j < N; j++) {
-//				if (plosca[i][j] == Polje.PRAZNO) {
-//					if (naPotezi == Igralec.O) {
-//						return Stanje.NA_POTEZI_O;
-//					}
-//					else {
-//						return Stanje.NA_POTEZI_X;
-//					}
-//				}
-//			}
-//		}
+
+	public Stanje stanje() {
+		// Ali imamo zmagovalca?
+		Igralec t = zmagovalnaPoteza();
+		if (t != null & t == Igralec.C) {
+			return Stanje.ZMAGA_C;
+		}
+		if(t!= null & t == Igralec.B) {
+			return Stanje.ZMAGA_B;
+		}
+		
+		// ne porezi je C ali na potezi je B ??
+		
+		
+		// Ali imamo kakĹĄno prazno polje?
+		// Äe ga imamo, igre ni konec in je nekdo na potezi
+		else { if (naPotezi == Igralec.B) {
+						return Stanje.NA_POTEZI_B;
+					}
+					else {
+						return Stanje.NA_POTEZI_C;
+					}
+				}
+			}
+		
+
 //		// Polje je polno, rezultat je neodloÄen
 //		return Stanje.NEODLOCENO;
 //	}
@@ -259,14 +310,14 @@ public class Igra {
 //	 * @param p
 //	 * @return true, Äe je bila poteza uspeĹĄno odigrana
 //	 */
-//	public boolean odigraj(Poteza p) {
-//		if (plosca[p.getX()][p.getY()] == Polje.PRAZNO) {
-//			plosca[p.getX()][p.getY()] = naPotezi.getPolje();
-//			naPotezi = naPotezi.nasprotnik();
-//			return true;
-//		}
-//		else {
-//			return false;
-//		}
-//	}
+	public boolean odigraj(Poteza p) {
+		if (plosca[p.getX()][p.getY()] == Polje.PRAZNO) {
+			plosca[p.getX()][p.getY()] = naPotezi.getPolje();
+			naPotezi = naPotezi.nasprotnik();
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 }
