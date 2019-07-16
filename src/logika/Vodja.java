@@ -5,6 +5,7 @@ import java.util.Random;
 
 import inteligenca.OcenjenaPoteza;
 import inteligenca.Minimax;
+import gui.IgralnoPolje;
 
 import java.util.List;
 import gui.GlavnoOkno;
@@ -16,7 +17,7 @@ import gui.GlavnoOkno;
  */
 
 public class Vodja {
-	
+	private IgralnoPolje polje;
 	private Random random;
 	
 	// Glavno okno
@@ -25,7 +26,7 @@ public class Vodja {
 	// Igra, ki jo trenutno igramo.
 	public Igra igra;
 	
-	// Ali je Älovek O ali X?
+
 	public Igralec beli;
 	public boolean naVrstiB;
 	public boolean naVrstiC;
@@ -46,6 +47,7 @@ public class Vodja {
 //	
 	public void igramo () {
 		okno.osveziGUI();
+		// tole zamenjaj z repaint() ? 
 		switch (igra.stanje()) {
 		case ZMAGA_B: 
 		case ZMAGA_C: 
@@ -62,16 +64,30 @@ public class Vodja {
 	}
 	
 	public void racunalnikovaPoteza() {
-		List<OcenjenaPoteza> ocenjenePoteze = Minimax.oceniPoteze (igra, 2, clovek.nasprotnik());
-		Poteza poteza = Minimax.maxPoteza(ocenjenePoteze);
-		igra.odigraj(poteza);
+//		List<OcenjenaPoteza> ocenjenePoteze = Minimax.oceniPoteze (igra, 2, clovek.nasprotnik());
+//		Poteza poteza = Minimax.maxPoteza(ocenjenePoteze);
+//		igra.odigraj(poteza);
 		igramo();
 	}
 //	
-	public void clovekovaPoteza(Poteza poteza) {
-		if (igra.odigraj(poteza)) {
-			clovekNaVrsti = false;	
-			igramo();
+	public void clovekovaPoteza(Pozicija zacetna, Poteza koncna) {
+		if (igra.odigraj(zacetna,koncna)) {
+
+			System.out.println("smo v clovekova Poteza");
+
+			int zacX= zacetna.getX();
+			int zacY = zacetna.getY();
+			int koncX = koncna.getX();
+			int koncY = koncna.getY();
+//			
+			Polje[][] plosca = igra.getPlosca();
+			plosca[zacX][zacY]= Polje.PRAZNO;
+			plosca[koncX][koncY]= Polje.B;
+			
+//			naVrstiB = false;
+//			igramo();
+			
+			
 		}
 //		
 	}

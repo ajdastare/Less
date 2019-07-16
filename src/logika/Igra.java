@@ -1,7 +1,6 @@
 package logika;
 
 import java.util.*;
-import com.sun.javafx.collections.MappingChange.Map;
 
 public class Igra {
 
@@ -167,6 +166,7 @@ public class Igra {
 		// še ostale od 0- 4 in še za C nastavit ostale
 		naPotezi = Igralec.B;
 		
+		
 	}
 	
 	
@@ -310,14 +310,272 @@ public class Igra {
 //	 * @param p
 //	 * @return true, Äe je bila poteza uspeĹĄno odigrana
 //	 */
-	public boolean odigraj(Poteza p) {
-		if (plosca[p.getX()][p.getY()] == Polje.PRAZNO) {
-			plosca[p.getX()][p.getY()] = naPotezi.getPolje();
-			naPotezi = naPotezi.nasprotnik();
-			return true;
-		}
-		else {
-			return false;
-		}
+	
+	
+	public boolean odigraj(Pozicija zacetna, Poteza koncna) {
+		System.out.println("smo v odigraj");
+		
+		int zac_X = zacetna.getX();
+		int zac_Y = zacetna.getY();
+		int konc_X= koncna.getX();
+		int konc_Y = koncna.getY();
+		int st_potez = 3;
+//		 
+		boolean horizontalno = false;
+		boolean vertikalno = false; 
+		boolean na_desno = false;
+		boolean na_levo = false;
+		boolean dol = false;
+		boolean gor = false; 
+//		
+		if( zac_X == konc_X) {
+			 vertikalno = true;
+			 if(zac_Y < konc_Y) {
+				 dol = true;
+			 }else {
+				 gor = true;
+			 }
+//			 
+		 }
+		 else {
+			 horizontalno = true;
+			 if(zac_X < konc_X) {
+				 na_desno = true;
+			 }else {
+				 na_levo = true;
+			 }
+		 }
+//		 
+//		 
+//		 // ugotovimo ali se premaknemo na levo ali na desno
+//		 // oziroma gor ali dol 
+//		 // ce se premikamo vertikalno nas zanima samo zgornja ograja 
+//		// ce se premikamo horizontalno nas zanima samo leva ograja
+//		 
+		 if (horizontalno) {
+			 if(plosca[konc_X][konc_Y] == Polje.PRAZNO) {
+				 if(na_levo) {
+					 // ce se premaknes za eno v levo 
+					 if ((zac_X - konc_X) ==  1) {
+						 int strosek = matrika[zac_X][zac_Y][1];
+						 int stanje = st_potez - strosek ; 
+						 if(stanje > 0) {
+							 return true; 
+							 
+							 }
+						 if(stanje == 0) {
+							plosca[zac_X][zac_Y] = naPotezi.getPolje();
+							naPotezi = naPotezi.nasprotnik();
+							 return true; 	 
+							 }
+						 if(stanje < 0 ){
+							 return false;
+							 }
+						 }
+					 // ce se premaknes za dva v levo - torej samo takrat ko nekoga preskocis(svojega igralca ali pa drugega)
+			
+					 if((zac_X - konc_X) == 2) {
+						 if(plosca[zac_X - 1][zac_Y] != Polje.PRAZNO) {
+							 int strosek1 = matrika[zac_X-1][zac_Y][1];
+							 int strosek2 = matrika[zac_X][zac_Y][1];
+							 
+							 // če preskočimo se steje kot en korak in je OK, ce je vmes zid, ni OK 
+							 if (strosek1 >= 2 || strosek2 >=2 ) {
+								 return false;
+								 }
+							 else {
+								 int stanje = st_potez - strosek1-strosek2 ; 
+								 if(stanje > 0) {
+								 return true;
+								 }
+								 if(stanje == 0) {
+									 plosca[konc_X][konc_Y] = naPotezi.getPolje();
+									 naPotezi = naPotezi.nasprotnik();
+									 return true; 
+								 	}
+								 if(stanje < 0 ){
+									 return false; 
+								 	}
+							 }
+						 }
+						 else {
+							 return false;
+						 }
+						 
+					 }
+					 if ((zac_X - konc_X) > 2) {
+						 return false;
+					 }
+					 
+					 na_levo = false;
+					 
+				 }
+				 
+				 if(na_desno) {
+					 
+					 
+					 if ((konc_X - zac_X) ==  1) {
+						 int strosek = matrika[konc_X][konc_Y][1];
+						 int stanje = st_potez - strosek - 1; 
+						 if(stanje > 0) {
+							 return true; 
+						 }
+						 if(stanje == 0) {
+							plosca[zac_X][zac_Y] = naPotezi.getPolje();
+							naPotezi = naPotezi.nasprotnik();
+							 return true; 
+							 
+						 }
+						 if(stanje < 0 ){
+							 return false; 
+							 }
+						 }
+					 // ce se premaknes za dva v desno 
+			
+					 if((konc_X - zac_X) == 2) {
+						// če preskocimo se steje kot en korak in je OK, ce je vmes zid, ni OK 
+						 if(plosca[zac_X + 1][zac_Y]!= Polje.PRAZNO) {
+							 int strosek1 = matrika[konc_X][konc_Y][1];
+							 int strosek2 = matrika[konc_X-1][konc_Y][1];
+							 if (strosek1 >= 2||strosek2 >= 2 ) {
+								 return false;
+								 }
+							 
+							 else {
+							 
+								 int stanje = 3 - strosek1 - strosek2; 
+							 
+								 if(stanje > 0) {
+									 return true; 
+								 }
+								 if(stanje == 0) {
+									 plosca[zac_X][zac_Y] = naPotezi.getPolje();
+									 naPotezi = naPotezi.nasprotnik();
+									 return true; 
+									 }
+								 if(stanje < 0 ){
+									 return false; 
+									 }
+							 }
+							 
+							 }
+						 else {
+							 return false;
+							 }
+						 }
+					 if((konc_X - zac_X) > 2) {
+						 return false;
+						 
+					 }
+					 na_desno = false;	 
+					 }
+				 }
+			 else {
+				 // ce polje ni prazno
+				 return false;
+			 }
+			 horizontalno = false;
+		 }
+//				 
+//				
+//		 
+		 if (vertikalno) {
+			 if(plosca[konc_X][konc_Y]== Polje.PRAZNO) {
+				 // ce se premaknemo za 1
+				
+				 if(gor) {
+					 if(zac_Y - konc_Y == 1) {
+						 int strosek = matrika[zac_X][zac_Y][0];
+						 int stanje = st_potez - strosek; 
+						 if(stanje > 0) {return true; 
+						 }
+						 if(stanje == 0) {
+								 plosca[zac_X][zac_Y] = naPotezi.getPolje();
+								 naPotezi = naPotezi.nasprotnik();
+								 return true; 
+							 
+						 }
+						 if(stanje < 0 ){
+							 return false; 
+							 }
+					 
+					 
+					 }
+					 if (zac_Y - konc_Y == 2) {
+						 if(plosca[zac_X][zac_Y-1]!= Polje.PRAZNO) {
+							 int strosek1 = matrika[zac_X][zac_Y][0];
+							 int strosek2 = matrika[zac_X][zac_Y-1][0];
+							 if (strosek1 >=2 || strosek2 >=2) {
+								 return false;
+							 }
+							 else {
+								 return true;
+								 }
+							 }
+						 
+							 
+						 }
+					 if(zac_Y - konc_Y > 2 ) {
+						 return false;
+					 }
+					 gor = false;
+					 
+					 }
+					 
+				 
+				 if(dol) {
+					 if(konc_Y -zac_Y== 1) {
+						 int strosek = matrika[konc_X][konc_Y][0];
+						 if(3-strosek > 0) {
+							 return true;
+						 }
+						 if(3-strosek == 0) {
+							 plosca[zac_X][zac_Y] = naPotezi.getPolje();
+							 naPotezi = naPotezi.nasprotnik();
+							 return true;
+						 }
+						 
+					 }
+					 if(konc_Y - zac_Y == 2) {
+						 if(plosca[zac_X][zac_Y + 1]!= Polje.PRAZNO) {
+							 int strosek1 = matrika[zac_X][konc_Y][0];
+							 int strosek2 = matrika[zac_X][zac_Y+1][0];
+							 if(strosek1 >= 2|| strosek2 >= 2) {
+								 return false;
+								 }
+							 if(3-strosek1 - strosek2 > 0 ) {
+								 return true;
+								
+							 	}
+							 if(3 - strosek1 -strosek2 == 0) {
+								 plosca[zac_X][zac_Y] = naPotezi.getPolje();
+								 naPotezi = naPotezi.nasprotnik();
+								 return true;
+								 
+							 	}
+							 }
+						 else {
+							 return false;
+							 }
+						 }
+					 if(konc_Y - zac_Y > 2) {
+						 return false;
+						 } 
+					 dol = false;
+					 }
+				 }
+			 // ce polje ni prazno 
+			 else {
+				 return false;
+				 }
+			vertikalno = false; 
+			}
+		return false;
+		 }
 	}
-}
+
+		
+		 
+	
+
+

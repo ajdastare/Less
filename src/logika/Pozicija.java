@@ -1,12 +1,10 @@
 package logika;
 
-public class Poteza {
+public class Pozicija {
 	public static int x; //plosca (podstavek), vrednosti med 0 in 5
 	public static int y; //stevilka polja (katero polje znotraj ploscice), vrednosti med 0 in 5
 	
-	
-	
-	public Poteza(int x, int y) {
+	public Pozicija(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
@@ -21,6 +19,8 @@ public class Poteza {
 
 	@Override
 	public String toString() {
-		return "Poteza [x=" + x + ", y=" + y + "]";
+		return "Pozicija [x=" + x + ", y=" + y + "]";
 	}
 }
+
+
