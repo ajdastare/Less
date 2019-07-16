@@ -380,7 +380,7 @@ public class Igra {
 							 int strosek2 = matrika[zac_X][zac_Y][1];
 							 
 							 // če preskočimo se steje kot en korak in je OK, ce je vmes zid, ni OK 
-							 if (strosek1 >= 2 || strosek2 >=2 ) {
+							 if (strosek1 >= 1 || strosek2 >=1 ) {
 								 return false;
 								 }
 							 else {
@@ -437,7 +437,7 @@ public class Igra {
 						 if(plosca[zac_X + 1][zac_Y]!= Polje.PRAZNO) {
 							 int strosek1 = matrika[konc_X][konc_Y][1];
 							 int strosek2 = matrika[konc_X-1][konc_Y][1];
-							 if (strosek1 >= 2||strosek2 >= 2 ) {
+							 if (strosek1 >= 1||strosek2 >= 1 ) {
 								 return false;
 								 }
 							 
@@ -505,7 +505,7 @@ public class Igra {
 						 if(plosca[zac_X][zac_Y-1]!= Polje.PRAZNO) {
 							 int strosek1 = matrika[zac_X][zac_Y][0];
 							 int strosek2 = matrika[zac_X][zac_Y-1][0];
-							 if (strosek1 >=2 || strosek2 >=2) {
+							 if (strosek1 >=1 || strosek2 >=1) {
 								 return false;
 							 }
 							 else {
@@ -540,7 +540,7 @@ public class Igra {
 						 if(plosca[zac_X][zac_Y + 1]!= Polje.PRAZNO) {
 							 int strosek1 = matrika[zac_X][konc_Y][0];
 							 int strosek2 = matrika[zac_X][zac_Y+1][0];
-							 if(strosek1 >= 2|| strosek2 >= 2) {
+							 if(strosek1 >= 1|| strosek2 >= 1) {
 								 return false;
 								 }
 							 if(3-strosek1 - strosek2 > 0 ) {
