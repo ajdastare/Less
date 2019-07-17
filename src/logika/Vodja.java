@@ -64,9 +64,9 @@ public class Vodja {
 	}
 	
 	public void racunalnikovaPoteza() {
-//		List<OcenjenaPoteza> ocenjenePoteze = Minimax.oceniPoteze (igra, 2, clovek.nasprotnik());
-//		Poteza poteza = Minimax.maxPoteza(ocenjenePoteze);
-//		igra.odigraj(poteza);
+		List<OcenjenaPoteza> ocenjenePoteze = Minimax.oceniPoteze (igra, 2, clovek.nasprotnik());
+		Poteza poteza = Minimax.maxPoteza(ocenjenePoteze);
+		igra.odigraj(poteza);
 		igramo();
 	}
 //	

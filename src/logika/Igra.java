@@ -262,49 +262,33 @@ public class Igra {
 		return ps;
 	}
 
-//	Igralec, ki ima zapolnjene kote nasprotnika - zmaga
-	// B začne v plosca [0][0-3] -> zmaga ko pride v kot plosca[8][0-3]
-	// parameter ? 
-	// vrne igralec ki ima zapolnjen kot, ali null če takega igralca ni 
-//	private Igralec cigavKot(Kot t) {
-//		int count_C = 0;
-//		int count_B = 0;
-//		for (int k = 0; k < N && (count_C == 0 || count_B == 0); k++) {
-//			switch (plosca[t.x[k]][t.y[k]]) {
-//			case B: count_B += 1; break;
-//			case C: count_C += 1; break;
-//			case PRAZNO: break;
-//			}
-//		}
-//		if (count_B == N) { return Igralec.B; }
-//		else if (count_C == N) { return Igralec.C; }
-//		else { return null; }
-//	}
-// NE VRNE PA ČE JE NEODLOČENO JE TREBA ŠE IZBOLJŠAT
+
 	private Igralec cigavKot() {
 		int count_C = 0;
 		int count_B = 0;
 		// ker so nastavljeni koti po "defaultu" se ve kdaj kdo zmaga
 		// stetje za C 
-		for(int i = 0;i < 6 && (count_C <= 6|| count_B <= 6); i ++) {
-			switch(plosca[0][i]) {
+		for(int i = 0;i < 2 && (count_C <= 6|| count_B <= 6); i ++) {
+			for(int j= 0;j < 2; j ++) {
+			switch(plosca[i][i]) {
 			case C: count_C += 1;break;
 			case B: break;
 			case PRAZNO: break;
-			
 			}
-			
-		}
-		for(int i = 0; i< M && (count_C <= 6 || count_B <= 6); i++) {
-			switch(plosca[8][i]) {
+			}
+			}
+		for(int i = 4; i< 6 && (count_C <= 6 || count_B <= 6); i++) {
+			for(int j = 4; j < 6; j ++ ) {
+			switch(plosca[i][i]) {
 			case C: break;
 			case B: count_B += 1;
 			case PRAZNO: break;
 			
 			}
 		}
-		if (count_B == M) { return Igralec.B; }
-		if (count_C == M) { return Igralec.C; }
+		}
+		if (count_B == 4) { return Igralec.B; }
+		if (count_C == 4) { return Igralec.C; }
 		
 		else { return null; }
 	}
@@ -338,11 +322,6 @@ public class Igra {
 			return Stanje.ZMAGA_B;
 		}
 		
-		// ne porezi je C ali na potezi je B ??
-		
-		
-		// Ali imamo kakĹĄno prazno polje?
-		// Äe ga imamo, igre ni konec in je nekdo na potezi
 		else { if (naPotezi == Igralec.B) {
 						return Stanje.NA_POTEZI_B;
 					}
