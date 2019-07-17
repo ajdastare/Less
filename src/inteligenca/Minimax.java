@@ -23,33 +23,37 @@ public class Minimax {
 	private static final int ZGUBA = -ZMAGA;  // vrednost izgube, mora biti -ZMAGA
 	private static final int NEODLOC = 0;  // vrednost neodloÄene igre	
 	
-//	public static List<OcenjenaPoteza> oceniPoteze(Igra igra, int globina, Igralec jaz) {
-//		List<OcenjenaPoteza> ocenjenePoteze = new LinkedList<OcenjenaPoteza> ();
-//		List<Poteza> moznePoteze = igra.poteze();
-//		for (Poteza p: moznePoteze) {
-//			Igra tempIgra = new Igra(igra);
-//			tempIgra.odigraj (p);
-//			int ocena = minimaxPozicijo (tempIgra, globina-1, jaz);
-//			ocenjenePoteze.add(new OcenjenaPoteza(p, ocena));			
-//		}
-//		return ocenjenePoteze;
-//	}
+	public static List<OcenjenaPoteza> oceniPoteze(Igra igra, int globina, Igralec jaz) {
+		List<OcenjenaPoteza> ocenjenePoteze = new LinkedList<OcenjenaPoteza> ();
+		List<Poteza> moznePoteze = igra.poteze();
+		for (Poteza p: moznePoteze) {
+			Igra tempIgra = new Igra(igra);
+			tempIgra.odigraj (p);
+			int ocena = minimaxPozicijo (tempIgra, globina-1, jaz);
+			ocenjenePoteze.add(new OcenjenaPoteza(p, ocena));			
+		}
+		return ocenjenePoteze;
+	}
 //	
-//	public static int minimaxPozicijo(Igra igra, int globina, Igralec jaz) {
-//		Stanje stanje = igra.stanje();
-//		switch (stanje) {
-//		case ZMAGA_O: return (jaz == Igralec.O ? ZMAGA : ZGUBA);
-//		case ZMAGA_X: return (jaz == Igralec.X ? ZMAGA : ZGUBA);
-//		case NEODLOCENO: return (NEODLOC);
-//		default:
-//		// Nekdo je na potezi
-//		if (globina == 0) {return oceniPozicijo(igra, jaz);}
-//		// globina > 0
-//	    List<OcenjenaPoteza> ocenjenePoteze = oceniPoteze(igra, globina, jaz);
-//		if (igra.naPotezi == jaz) {return maxOcena(ocenjenePoteze);}
-//		else {return minOcena(ocenjenePoteze);}		
-//		}
-//	}
+	public static int minimaxPozicijo(Igra igra, int globina, Igralec jaz) {
+		Stanje stanje = igra.stanje();
+		switch (stanje) {
+		case ZMAGA_B: return (jaz == Igralec.B ? ZMAGA : ZGUBA);
+		case ZMAGA_C: return (jaz == Igralec.C ? ZMAGA : ZGUBA);
+		case NEODLOCENO: return (NEODLOC);
+		default:
+		// Nekdo je na potezi
+		if (globina == 0) {return oceniPozicijo(igra, jaz);}
+		//definiraj kako bom ocenjeala trenutno pozicijo na plošči 
+		// minimalno število korakov da vsi pridejo v kot
+		
+		// globina > 0
+	    List<OcenjenaPoteza> ocenjenePoteze = oceniPoteze(igra, globina, jaz);
+		if (igra.naPotezi == jaz) {return maxOcena(ocenjenePoteze);}
+		
+		else {return minOcena(ocenjenePoteze);}		
+		}
+	}
 //	
 //	public static int maxOcena(List<OcenjenaPoteza> ocenjenePoteze) {
 //		int max = ZGUBA;

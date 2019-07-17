@@ -70,13 +70,13 @@ public class Vodja {
 		igramo();
 	}
 //	
-	public void clovekovaPoteza(Pozicija zacetna, Poteza koncna) {
-		if (igra.odigraj(zacetna,koncna)) {
+	public void clovekovaPoteza(Poteza koncna) {
+		if (igra.odigraj(koncna)) {
 
 			System.out.println("smo v clovekova Poteza");
 
-			int zacX= zacetna.getX();
-			int zacY = zacetna.getY();
+			int zacX= koncna.getX0();
+			int zacY = koncna.getY0();
 			int koncX = koncna.getX();
 			int koncY = koncna.getY();
 //			

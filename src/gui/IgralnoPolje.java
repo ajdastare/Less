@@ -34,8 +34,9 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 	private Vodja vodja;
 	boolean dragging = false;
 	
-	LinkedList<Pozicija> pozicijaB = new LinkedList();
-	LinkedList<Pozicija> pozicijaC = new LinkedList();
+//	LinkedList<Pozicija> pozicijaB = new LinkedList();
+	Pozicija pozicija ;
+
 	/**
 	 * Relativna sirina crte
 	 */
@@ -305,14 +306,14 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 			if(0 <= i && i < 6 &&
 					0 <= j && j < 6
 					) {
-			pozicijaB.add(zacetna1);
+			pozicija = zacetna1;
 			
 			System.out.println("Zacetna pozicijaB"+zacetna1);
-			System.out.println(pozicijaB);
+			System.out.println(pozicija);
 			}
 			
 		}else {
-			pozicijaC.add(zacetna1);
+			pozicija= zacetna1;
 			System.out.println("Zacetna pozicijaC"+zacetna1);
 			
 		}
@@ -338,18 +339,18 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 		
 		// trenutni (i,j) bi radi zabeležili da bomo lahko izračunali poteze
 		
-		Poteza koncna = new Poteza(i,j);
+		Poteza koncna = new Poteza(pozicija.getX(),pozicija.getY(),i,j);
 		System.out.println(koncna + " krogec bo tu.");
 		
-		Pozicija zacetna = pozicijaB.getLast();
-		System.out.println("to je i"+ i + "to je j" + j);
+		
+		
 		
 		
 		if (vodja.naVrstiB) {
 			if (0 <= i && i < 6 &&
 					0 <= j && j < 6 ) {
 				System.out.println("Tukaj smo");
-				vodja.clovekovaPoteza(zacetna, koncna);
+				vodja.clovekovaPoteza(koncna);
 				
 //				Polje [][] plosca = vodja.igra.getPlosca();
 //				plosca[i][j] = Polje.B;

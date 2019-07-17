@@ -1,12 +1,16 @@
 package logika;
 
 public class Poteza {
-	public static int x; //plosca (podstavek), vrednosti med 0 in 5
-	public static int y; //stevilka polja (katero polje znotraj ploscice), vrednosti med 0 in 5
+	public  int x; //plosca (podstavek), vrednosti med 0 in 5
+	public  int y; //stevilka polja (katero polje znotraj ploscice), vrednosti med 0 in 5
+	public int x0;
+	public int y0;
 	
 	
 	
-	public Poteza(int x, int y) {
+	public Poteza(int x0, int y0, int x, int y) {
+		this.x0 = x0;
+		this.y0 = y0;
 		this.x = x;
 		this.y = y;
 	}
@@ -17,6 +21,12 @@ public class Poteza {
 
 	public int getY() {
 		return y;
+	}
+	public int getY0() {
+		return y0;
+	}
+	public int getX0() {
+		return x0;
 	}
 
 	@Override
