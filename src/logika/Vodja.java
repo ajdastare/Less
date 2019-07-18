@@ -64,7 +64,7 @@ public class Vodja {
 	}
 	
 	public void racunalnikovaPoteza() {
-		List<OcenjenaPoteza> ocenjenePoteze = Minimax.oceniPoteze (igra, 2, clovek.nasprotnik());
+		List<OcenjenaPoteza> ocenjenePoteze = Minimax.oceniPoteze (igra, 2, beli.nasprotnik());
 		Poteza poteza = Minimax.maxPoteza(ocenjenePoteze);
 		igra.odigraj(poteza);
 		igramo();
@@ -85,7 +85,7 @@ public class Vodja {
 			plosca[koncX][koncY]= Polje.B;
 			
 //			naVrstiB = false;
-//			igramo();
+			igramo();
 			
 			
 		}

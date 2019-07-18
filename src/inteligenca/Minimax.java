@@ -50,14 +50,15 @@ public class Minimax {
 		//definiraj kako bom ocenjevala trenutno pozicijo na plošči 
 		// minimalno število korakov da vsi pridejo v kot
 		
-		if (globina > 0) {
+//		if (globina > 0) {
 	    List<OcenjenaPoteza> ocenjenePoteze = oceniPoteze(igra, globina, jaz);
 		if (igra.naPotezi == jaz) {return maxOcena(ocenjenePoteze);}
 		
 		else {return minOcena(ocenjenePoteze);
-		}		
 		}
+
 		}
+
 	}
 //	
 	public static int maxOcena(List<OcenjenaPoteza> ocenjenePoteze) {
@@ -91,57 +92,48 @@ public class Minimax {
 	// Metoda oceniPozicijo je odvisna od igre
 	
 	public static int oceniPozicijo(Igra igra, Igralec jaz) {
-		
-		int ocena = 0;
-		// igralec je jaz torej z tistimi ki so tako oznaceni zacnemo
-		for(int i = 0; i <6 ; i ++) {
-			for(int j = 0; j < 6; j++) {
-				if(polje[i][j]== Polje.jaz) {
-					int zac_x = i;
-					int zac_y = j;
-					
-					int razlika1_x = zac_x - 0;
-					int razlika1_y = zac_y - 0; 
-					// najvecji razliki 
-					
-					for (int x = 0; x <= razlika1_x; x++){
-						for (int y = 0; y < razlika1_y; y++) {
-							if(polje[i-x-1][j] == Polje.PRAZNO) {
-								
-							}
-							
-						}
-					}							
-					
-					
-					
-					// poglejmo kam sploh more pridt
-					if (jaz ==  Igralec.C) {
-						LinkedList<Polje> konecC = new LinkedList<Polje>();
-						Polje[][] plosca;
-						konecC.add(plosca[1][1]);
-						konecC.add(plosca[0][1]);
-						konecC.add(plosca[0][0]);
-						konecC.add(plosca[1][0]);
-						// nekak bi rabla od tu naprej neko rekurzivno funkcijo ki bi nas prpelala v ta kot
-						// in stela stroske
-						// koncamo ko pride C najhitreje v :
-						//plosca[1][1], plosca[1][0], plosca[0][1], plosca[0][0]
-						// ali pa da bi samo preračunale za kok se more premaknit po x osi in za kok po y osi pa potem pogledaš stroške? 
-						
+		Polje[][] plosca = igra.getPlosca();
+		int[][][] matrika = Igra.matrika;
+		int vrstice = 0;
+		int stolpci = 0; 
+		int skupaj = 0; 
+		if (jaz == Igralec.C) {
+			for (int i=0; i < 6; i++) {
+				for (int j = 0; j<6; j++) {
+					if (plosca[i][j] == Polje.C) {
+						for(int x = i; x >= 0; x--) {
+							// štejemo stroške po vrstici
+							// gremo v levozato nas zanimajo leve ograje
+							vrstice = vrstice + matrika[x][j][1];	
 					}
-					if(jaz == Igralec.B) {
-						// plosca[4][4], plosca[4][5], plosca[5][5], plosca[5][4]
-						
-					}
-					
-					
+						for(int y =j; j>=0; j--) {
+							stolpci= stolpci + matrika[0][y][0];						}
 				}
-				
+					// na ta nacin vsak grogec spravimo v levi kot (0,0) kar ni najbol optimalno 
 			}
+			
 		}
-		return ocena;
 		}
+		if (jaz == Igralec.B ) {
+			for (int i=0; i < 6; i++) {
+				for (int j = 0; j<6; j++) {
+					if (plosca[i][j] == Polje.B) {
+						// štejemo stroške po vrstici
+						// gremo v desno zato nas zanimajo desne ograje
+						for(int x = i+1; x < 6; x++) {
+								vrstice = vrstice + matrika[x][j][1];	
+						}
+						for(int y =j+1; j<6; j++) {
+								stolpci= stolpci + matrika[5][y][0];						
+								}
+						}
+					}
+					}
+					}
+		skupaj = vrstice+ stolpci;
+		return skupaj;
+	}
+	
 		
 		
 		
