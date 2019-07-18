@@ -10,7 +10,6 @@ import gui.IgralnoPolje;
 import java.util.List;
 import gui.GlavnoOkno;
 
-
 /**
  * @author AS
  * Hrani trenutno stanje igre in nadzoruje potek igre.
@@ -47,6 +46,7 @@ public class Vodja {
 //	
 	public void igramo () {
 		okno.osveziGUI();
+		okno.repaint();
 		// tole zamenjaj z repaint() ? 
 		switch (igra.stanje()) {
 		case ZMAGA_B: 
@@ -66,7 +66,18 @@ public class Vodja {
 	public void racunalnikovaPoteza() {
 		List<OcenjenaPoteza> ocenjenePoteze = Minimax.oceniPoteze (igra, 2, beli.nasprotnik());
 		Poteza poteza = Minimax.maxPoteza(ocenjenePoteze);
-		igra.odigraj(poteza);
+		if(igra.odigraj(poteza)) {
+			System.out.println("smo v racunalnikova Poteza");
+
+			int zacX= poteza.getX0();
+			int zacY = poteza.getY0();
+			int koncX = poteza.getX();
+			int koncY = poteza.getY();
+//			
+			Polje[][] plosca = igra.getPlosca();
+			plosca[zacX][zacY]= Polje.PRAZNO;
+			plosca[koncX][koncY]= Polje.C;
+		}
 		igramo();
 	}
 //	

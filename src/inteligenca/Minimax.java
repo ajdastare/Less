@@ -28,8 +28,27 @@ public class Minimax {
 		List<Poteza> moznePoteze = igra.poteze();
 		for (Poteza p: moznePoteze) {
 			Igra tempIgra = new Igra(igra);
+			Polje[][] tempPlosca = tempIgra.getPlosca();
 			// kopiramo igro
-			tempIgra.odigraj (p);
+			
+			if(tempIgra.odigraj (p)) {
+
+				// odigraj p vrne samo true in false
+				// to kar odigra je treba implementirat na kompirano igro torej da je tisto polje potem oznaceno
+				
+				int zacX0 = p.getX0();
+				int zacY0 = p.getY0();
+				int koncX = p.getX();
+				int koncY = p.getY();
+				
+				tempPlosca[zacX0][zacY0] = Polje.PRAZNO;
+				if( jaz == Igralec.C) {
+				tempPlosca[koncX][koncY] = Polje.C;
+			}else {
+				tempPlosca[koncX][koncY] = Polje.B;
+			}
+				}
+			
 			// z vsako potezo odigra igro 
 			int ocena = minimaxPozicijo (tempIgra, globina-1, jaz);
 			// tu da oceno 
@@ -93,7 +112,9 @@ public class Minimax {
 	
 	public static int oceniPozicijo(Igra igra, Igralec jaz) {
 		Polje[][] plosca = igra.getPlosca();
+		// plosca od kopije igra
 		int[][][] matrika = Igra.matrika;
+		// ta matrika ni kopija
 		int vrstice = 0;
 		int stolpci = 0; 
 		int skupaj = 0; 

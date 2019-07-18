@@ -202,66 +202,169 @@ public class Igra {
 	 */
 //	to so te poteze ki so še na voljo torej ni nobenega gor
 // tiste poteze ki jih je mozno opravit na trenutni plosci
+
 	public List<Poteza> poteze() {
 		LinkedList<Poteza> ps = new LinkedList<Poteza>();
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 6; j++) {
+				
+				// mislm da morm locit na vodoravno navpicno 
 				if (plosca[i][j] == Polje.C) {
+					
+					
+					// na desno 
+					boolean na_desno = false;
+					boolean na_levo = false;
+					boolean gor = false;
+					boolean dol = false; 
+					boolean preskakujemo = false;
+					
+					if(i+1 < 6) {
 					if(plosca[i+1][j] == Polje.PRAZNO){
-						ps.add(new Poteza(i,j, i+1, j));
+						na_desno = true;
+			
+					}}
+					if(i-1 >=0) {
+					if(plosca[i-1][j]== Polje.PRAZNO) {
+						na_levo = true;
 						
-					}else if(plosca[i+1][j] != Polje.PRAZNO) {
-						if(plosca[i+2][j]== Polje.PRAZNO) {
-							if(matrika[i+1][j][1] == 0 && matrika[i+2][j][1]==0) {
-								ps.add(new Poteza(i,j,i+2,j));
+					}}
+					if(j+1 <6) {
+					if(plosca[i][j+1]== Polje.PRAZNO) {
+						dol = true;
+					}
+					}
+					if(j-1>=0) {
+					if(plosca[i][j-1]== Polje.PRAZNO) {
+						gor = true;
+					}
+					}
+					
+					
+					if(na_levo) {
+						ps.add(new Poteza(i,j,i-1,j));
+					}else if (i-2 >= 0) {
+							if(plosca[i-2][j]== Polje.PRAZNO) {
+	
+								if(matrika[i][j][1] == 0 && matrika[i-1][j][1]==0) {
+									preskakujemo = true;
+									ps.add(new Poteza(i,j,i-2,j));
+								} else {
+									preskakujemo = false;
+									
+								}
+								
+							}else {
+								preskakujemo = false;
+							}
+						}
+						
+					}
+					if(na_desno) {
+						ps.add(new Poteza(i,j,i+1,j));
+						
+					}else if(i+2 < 6) {
+							 if(plosca[i+2][j]== Polje.PRAZNO) {
+								if(matrika[i+1][j][1] == 0 && matrika[i+2][j][1]==0) {
+									ps.add(new Poteza(i,j,i+2,j));
+								}else {
+									preskakujemo = false;}
+								}else {
+									preskakujemo = false;
+								}
+								
+						}
+					else if(gor){
+						ps.add(new Poteza(i,j,i,j-1));
+					}else if(j-2>=0) {
+						if(plosca[i][j-2]== Polje.PRAZNO) {
+							if(matrika[i][j][0]== 0 && matrika[i][j-1][0]== 0) {
+								ps.add(new Poteza(i,j,i,j-2));
+								preskakujemo = true;
+							}else {
+								preskakujemo = false;
 							}
 							
 						}
+						// torej zgoraj je nek krogec - preskakujemo
 						
+						
+					}else {
+						preskakujemo = false;}
 					}
-					if(plosca[i-1][j] == Polje.PRAZNO){
-					ps.add(new Poteza(i,j, i-1, j));}
-					else if (plosca[i-1][j] != Polje.PRAZNO) {
-						if(plosca[i-2][j] == Polje.PRAZNO) {
-							if(matrika[i][j][1] == 0 && matrika[i-1][j][1]==0) {
-								ps.add(new Poteza(i,j,i-2,j));
-							}
-						}
-						
-					}
-					
-					if(plosca[i][j+1] == Polje.PRAZNO){
-						ps.add(new Poteza(i,j, i, j+1));
-						
-					}else if (plosca[i][j+1] != Polje.PRAZNO) {
+					if(dol) {
+						ps.add(new Poteza(i,j,i,j+1));
+					}else if(j+1 <6) {
 						if (plosca[i][j+2] == Polje.PRAZNO) {
 							if(matrika[j][j+1][0]== 0 && matrika[i][j+2][0]==0) {
 								ps.add(new Poteza(i,j,i,j+2));
 							}
 						}
-					}
 						
+					}
+		}
 					
-					if(plosca[i][j-1]== Polje.PRAZNO){
-						ps.add(new Poteza(i,j, i,j-1));
-						
-					}else if (plosca[i][j-1] != Polje.PRAZNO) {
-						if(plosca[i][j-2]== Polje.PRAZNO) {
-							if(matrika[i][j][0]== 0 && matrika[i][j-1][0]== 0) {
-								ps.add(new Poteza(i,j,i,j-2));
-							}
-							
-						}
-						
-					}
-						
-					}		
-				}
-			}
+				
+			
 		
 		return ps;
 	}
-
+//					
+//					
+//					
+//					
+//					else if(plosca[i+1][j] != Polje.PRAZNO) {
+//						if(i+ 2 > 5) {continue;
+//						}else if(plosca[i+2][j]== Polje.PRAZNO) {
+//							if(matrika[i+1][j][1] == 0 && matrika[i+2][j][1]==0) {
+//								ps.add(new Poteza(i,j,i+2,j));
+//							}
+//							
+//						}
+//						
+//					}else if(plosca[i-1][j] == Polje.PRAZNO){
+//					ps.add(new Poteza(i,j, i-1, j));}
+//					else if (plosca[i-1][j] != Polje.PRAZNO) {
+//						if(plosca[i-2][j] == Polje.PRAZNO) {
+//							if(matrika[i][j][1] == 0 && matrika[i-1][j][1]==0) {
+//								ps.add(new Poteza(i,j,i-2,j));
+//							}
+//						}
+//						
+//					}
+//					
+//					else if(plosca[i][j+1] == Polje.PRAZNO){
+//						ps.add(new Poteza(i,j, i, j+1));
+//						
+//					}else if (plosca[i][j+1] != Polje.PRAZNO) {
+//						if (plosca[i][j+2] == Polje.PRAZNO) {
+//							if(matrika[j][j+1][0]== 0 && matrika[i][j+2][0]==0) {
+//								ps.add(new Poteza(i,j,i,j+2));
+//							}
+//						}
+//					}
+//						
+//					
+//					else if(plosca[i][j-1]== Polje.PRAZNO){
+//						ps.add(new Poteza(i,j, i,j-1));
+//						
+//					}else if (plosca[i][j-1] != Polje.PRAZNO) {
+//						if(plosca[i][j-2]== Polje.PRAZNO) {
+//							if(matrika[i][j][0]== 0 && matrika[i][j-1][0]== 0) {
+//								ps.add(new Poteza(i,j,i,j-2));
+//							}
+//							
+//						}
+//						
+//					}
+//						
+//					}		
+//				}
+//			}
+//		
+//		return ps;
+//	}
+//
 
 	private Igralec cigavKot() {
 		int count_C = 0;
