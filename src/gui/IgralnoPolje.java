@@ -155,39 +155,6 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 //		g2.drawOval((int)i, (int)x, (int)y , (int)r);
 //	}
 	
-	private void narisiOgraje(Graphics2D g2, int[] ograje, double zacetekX, double zacetekY) {
-		//rise ograje enega polja znotraj podstavka, zacetekX in zacetekY sta koordinati 
-		//spodnjega levega kota, od katerega naprej risemo
-		double h = squareWidth()/2;
-		g2.setColor(Color.RED);
-		double[] x1_koor = {zacetekX, zacetekX + h, zacetekX + h, zacetekX};
-		double[] x2_koor = {zacetekX + h, zacetekX + h, zacetekX, zacetekX};
-		double[] y1_koor = {zacetekY + h, zacetekY + h, zacetekY, zacetekY};
-		double[] y2_koor = {zacetekY + h, zacetekY, zacetekY, zacetekY + h};
-		for (int i = 0; i<ograje.length; i++) {
-			if (ograje[i] != 0) {
-				g2.setStroke(new BasicStroke((float) (h * LINE_WIDTH * 3 * ograje[i])));
-				g2.drawLine(
-						(int)(x1_koor[i]),
-					    (int)(y1_koor[i]),
-					    (int)(x2_koor[i]),
-					    (int)(y2_koor[i]));
-			}
-		}
-	}
-	
-
-	
-	public void narisiPodstavek(Graphics2D g2, int[][] podstavek, double zaceteX, double zacetekY) {
-		double h = squareWidth()/2;
-		g2.setColor(Color.red);
-		double[] x_os = {zaceteX, zaceteX + h, zaceteX + h, zaceteX};
-		double[] y_os = {zacetekY + h, zacetekY + h, zacetekY, zacetekY};
-		for (int i=0; i<4; ++i) {
-			int[] ograje = podstavek[i];
-			narisiOgraje(g2, ograje, x_os[i], y_os[i]);
-		}
-	}
 
 	
 	@Override
@@ -238,19 +205,30 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 		System.out.println(vodja);
 		
 		//nastavljanje izgleda izzrebanih podstavkov
-		//g2.setColor(Color.red);
-		//g2.setStroke(new BasicStroke((float) (w * LINE_WIDTH*1.3)));
+
 		int h = w/2;
-		int[] x_os = {0,0,0,w,w,w,2*w,2*w,2*w};
-		int[] y_os = {2*w,1*w,0,2*w,1*w,0,2*w,1*w,0};
-		int[] X_os = {0,  h, h, 0};
-		int[] Y_os = { h,  h, 0, 0};
-		// narise podstavek in krogce
-		for (int d=0; d<9; d++) {
-			int[][] plosca = Igra.podatki[d];
-			narisiPodstavek(g2, plosca, x_os[d], y_os[d]);
-			
-			
+
+		g2.setColor(Color.red);
+		int[][][] matrika = Igra.matrika;
+		for (int i=0; i<matrika[0].length; i++) {
+			for (int j=0; j<matrika.length; j++) {
+				if (matrika[i][j][0] != 0) {
+					g2.setStroke(new BasicStroke((float) (h * LINE_WIDTH * 3 * matrika[i][j][0])));
+					g2.drawLine(
+							(int)(i * h),
+						    (int)(j * h),
+						    (int)(i * h + h),
+						    (int)(j * h));
+				}
+				if (matrika[i][j][1] != 0) {
+					g2.setStroke(new BasicStroke((float) (h * LINE_WIDTH * 3 * matrika[i][j][1])));
+					g2.drawLine(
+							(int)(i * h + h),
+						    (int)(j * h),
+						    (int)(i * h + h),
+						    (int)(j * h + h));
+				}
+			}
 		}
 			
 

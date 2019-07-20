@@ -120,7 +120,7 @@ public class Igra {
 			koti[i] = false;
 		}
 		
-		//pretvarjanje podatkov v matriko x, y koordinat, ki vsebuje par števil za ograje zgoraj in levo
+		//pretvarjanje podatkov v matriko x, y koordinat, ki vsebuje par števil za ograje zgoraj in desno
 		// kličeš matrika [0][0][0] za zgornjo ograjo na (0,0) 
 		for (int i=0; i<N; i++) {
 			for (int j=0; j<M; j++) {
@@ -128,11 +128,12 @@ public class Igra {
 				ograje = podatki[i][j];
 				int[] zg_l = new int[2];
 				zg_l[0] = ograje[0];
-				zg_l[1] = ograje[3];
+				zg_l[1] = ograje[1];
 				int t = 0;
 				if (j != 0) t = ((j + 3) % 3) / j;
 				
-				matrika[(i - ((i + 3) % 3))* 2/3 + t][5- (5 - 2 * ((i + 3) % 3) - (j -(j + 2) % 2)/2)] = zg_l;
+				matrika[(i - ((i + 3) % 3))* 2/3 + t][5 - (5 - 2 * ((i + 3) % 3) - (j -(j + 2) % 2)/2)] = zg_l;
+				
 			}
 			
 		}
