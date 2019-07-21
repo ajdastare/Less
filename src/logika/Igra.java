@@ -207,11 +207,13 @@ public class Igra {
 
 	public List<Poteza> poteze() {
 		LinkedList<Poteza> ps = new LinkedList<Poteza>();
-		for (int i = 0; i < 6; i++) {
-			for (int j = 0; j < 6; j++) {
+		if (naPotezi == Igralec.C ) {
+			for (int i = 0; i < 6; i++) {
+				for (int j = 0; j < 6; j++) {
+
 
 				// mislm da morm locit na vodoravno navpicno
-				if (plosca[i][j] == Polje.C) {
+					if (plosca[i][j] == Polje.C) {
 
 
 					// na desno
@@ -225,12 +227,14 @@ public class Igra {
 					if(plosca[i+1][j] == Polje.PRAZNO){
 						na_desno = true;
 
-					}}
+					}
+					}
 					if(i-1 >=0) {
 					if(plosca[i-1][j]== Polje.PRAZNO) {
 						na_levo = true;
 
-					}}
+					}
+					}
 					if(j+1 <6) {
 					if(plosca[i][j+1]== Polje.PRAZNO) {
 						dol = true;
@@ -248,37 +252,33 @@ public class Igra {
 					}else if (i-2 >= 0) {
 							if(plosca[i-2][j]== Polje.PRAZNO) {
 
-								if(matrika[i][j][1] == 0 && matrika[i-1][j][1]== 0) {
+								if(matrika[i-1][j][1] == 0 && matrika[i-2][j][1]== 0) {
 									preskakujemo = true;
 									ps.add(new Poteza(i,j,i-2,j));
-								} else {
+								}else {
 									preskakujemo = false;
-
 								}
-
 							}else {
 								preskakujemo = false;
 							}
 						}
-
-					}
 					if(na_desno) {
 						ps.add(new Poteza(i,j,i+1,j));
 
 					}else if(i+2 < 6) {
 							 if(plosca[i+2][j]== Polje.PRAZNO) {
-								if(matrika[i+1][j][1] == 0 && matrika[i+2][j][1]==0) {
+								if(matrika[i+1][j][1] == 0 && matrika[i][j][1]==0) {
 									ps.add(new Poteza(i,j,i+2,j));
 								}else {
 									preskakujemo = false;}
 								}else {
-									preskakujemo = false;
+									preskakujemo = false; 
 								}
 
 						}
 					else if(gor){
 						ps.add(new Poteza(i,j,i,j-1));
-					}else if(j-2>=0) {
+					}else if(j-2 >= 0) {
 						if(plosca[i][j-2]== Polje.PRAZNO) {
 							if(matrika[i][j][0]== 0 && matrika[i][j-1][0]== 0) {
 								ps.add(new Poteza(i,j,i,j-2));
@@ -288,11 +288,117 @@ public class Igra {
 							}
 
 						}
+						else {
+							continue;
+						}
 						// torej zgoraj je nek krogec - preskakujemo
 
 
-					}else {
-						preskakujemo = false;}
+					}
+					if(dol) {
+						ps.add(new Poteza(i,j,i,j+1));
+					}else if(j+2 <6) {
+						if (plosca[i][j+2] == Polje.PRAZNO) {
+							if(matrika[j][j+1][0]== 0 && matrika[i][j+2][0]==0) {
+								ps.add(new Poteza(i,j,i,j+2));
+							}
+						}else {
+							continue;
+						}
+
+					}
+					}
+				}
+			}
+		}
+		else {
+			for (int i = 0; i < 6; i++) {
+				for (int j = 0; j < 6; j++) {
+
+
+				// mislm da morm locit na vodoravno navpicno
+					if (plosca[i][j] == Polje.B) {
+
+
+					// na desno
+					boolean na_desno = false;
+					boolean na_levo = false;
+					boolean gor = false;
+					boolean dol = false;
+					boolean preskakujemo = false;
+
+					if(i+1 < 6) {
+					if(plosca[i+1][j] == Polje.PRAZNO){
+						na_desno = true;
+
+					}
+					}
+					if(i-1 >=0) {
+					if(plosca[i-1][j]== Polje.PRAZNO) {
+						na_levo = true;
+
+					}
+					}
+					if(j+1 <6) {
+					if(plosca[i][j+1]== Polje.PRAZNO) {
+						dol = true;
+					}
+					}
+					if(j-1>=0) {
+					if(plosca[i][j-1]== Polje.PRAZNO) {
+						gor = true;
+					}
+					}
+
+
+					if(na_levo) {
+						ps.add(new Poteza(i,j,i-1,j));
+					}else if (i-2 >= 0) {
+							if(plosca[i-2][j]== Polje.PRAZNO) {
+
+								if(matrika[i-1][j][1] == 0 && matrika[i-2][j][1]== 0) {
+									preskakujemo = true;
+									ps.add(new Poteza(i,j,i-2,j));
+								} else {
+									continue;
+								}
+
+							}else {
+								preskakujemo = false;
+							}
+						}
+					if(na_desno) {
+						ps.add(new Poteza(i,j,i+1,j));
+
+					}else if(i+2 < 6) {
+							 if(plosca[i+2][j]== Polje.PRAZNO) {
+								if(matrika[i+1][j][1] == 0 && matrika[i][j][1]==0) {
+									ps.add(new Poteza(i,j,i+2,j));
+								}else {
+									preskakujemo = false;}
+								}else {
+									continue;
+								}
+
+						}
+					else if(gor){
+						ps.add(new Poteza(i,j,i,j-1));
+					}else if(j-2 >= 0) {
+						if(plosca[i][j-2]== Polje.PRAZNO) {
+							if(matrika[i][j][0]== 0 && matrika[i][j-1][0]== 0) {
+								ps.add(new Poteza(i,j,i,j-2));
+								preskakujemo = true;
+							}else {
+								preskakujemo = false;
+							}
+
+						}
+						else {
+							continue;
+						}
+						// torej zgoraj je nek krogec - preskakujemo
+
+
 					}
 					if(dol) {
 						ps.add(new Poteza(i,j,i,j+1));
@@ -301,16 +407,20 @@ public class Igra {
 							if(matrika[j][j+1][0]== 0 && matrika[i][j+2][0]==0) {
 								ps.add(new Poteza(i,j,i,j+2));
 							}
+						}else {
+							continue;
 						}
 
 					}
+					}
+				}
+			}
 		}
-
-
-
-
 		return ps;
-	}
+			}
+		
+		
+
 //
 //
 //
@@ -437,9 +547,7 @@ public class Igra {
 			}
 
 
-//		// Polje je polno, rezultat je neodloÄen
-//		return Stanje.NEODLOCENO;
-//	}
+
 //
 //	/**
 //	 * Odigraj potezo p.
@@ -497,24 +605,27 @@ public class Igra {
 		 if (horizontalno) {
 			 if(plosca[konc_X][konc_Y] == Polje.PRAZNO) {
 				 if(na_levo) {
-					 // ce se premaknes za eno v levo
+					 // ce se premaknes za eno v levo, zanimajo nas samo desne ograje
 					 if ((zac_X - konc_X) ==  1) {
-						 int strosek = matrika[zac_X][zac_Y][1];
-						 st_potezB = st_potezB - strosek-1 ;
+						 int strosek = matrika[konc_X][zac_Y][1];
+						 int stanje = st_potezB - strosek - 1; 
+//						 st_potezB = st_potezB - strosek-1 ;
 
-						 if(st_potezB > 0) {
+						 if(stanje > 0) {
+							 st_potezB = st_potezB - strosek-1;
+							 
 							 System.out.println("strosek je "+ st_potezB);
 							 return true;
 
 							 }
-						 if(st_potezB == 0) {
+						 if(stanje == 0) {
 							 System.out.println("strosek je "+ st_potezB);
 							plosca[zac_X][zac_Y] = naPotezi.getPolje();
 							naPotezi = naPotezi.nasprotnik();
 							st_potezB = 3;
 							 return true;
 							 }
-						 if(st_potezB < 0 ){
+						 if(stanje < 0 ){
 							 System.out.println("strosek je "+ st_potezB);
 							 return false;
 							 }
@@ -523,23 +634,27 @@ public class Igra {
 
 					 if((zac_X - konc_X) == 2) {
 						 if(plosca[zac_X - 1][zac_Y] != Polje.PRAZNO) {
-							 int strosek1 = matrika[konc_X+1][zac_Y][1];
-							 int strosek2 = matrika[zac_X][zac_Y][1];
+							 if(zac_X + 1 <6 & konc_X <6) {
+							 int strosek1 = matrika[zac_X+1][zac_Y][1];
+							 int strosek2 = matrika[konc_X][zac_Y][1];
 
 							 // če preskočimo se steje kot en korak in je OK, ce je vmes zid, ni OK
 							 if (strosek1 >= 1 || strosek2 >=1 ) {
 								 return false;
 								 }
+							 
 							 else {
-								 int stanje = st_potezB - strosek1-strosek2-1 ;
-								 st_potezB = st_potezB - strosek1 -strosek2 - 1;
+								 int stanje = st_potezB - strosek1-strosek2 - 1; 
+								 
+								 
 								 if(stanje > 0) {
+									 st_potezB = st_potezB - strosek1 -strosek2 - 1;
 									 System.out.println("strosek je "+ st_potezB);
 								 return true;
 								 }
 								 if(stanje == 0) {
 
-									 plosca[konc_X][konc_Y] = naPotezi.getPolje();
+									 plosca[zac_X][zac_Y] = naPotezi.getPolje();
 									 naPotezi = naPotezi.nasprotnik();
 									 st_potezB = 3;
 									 System.out.println("strosek je "+ st_potezB);
@@ -551,8 +666,10 @@ public class Igra {
 								 	}
 							 }
 						 }
+						 
 						 else {
 							 return false;
+						 }
 						 }
 
 					 }
@@ -568,10 +685,11 @@ public class Igra {
 
 
 					 if ((konc_X - zac_X) ==  1) {
-						 int strosek = matrika[konc_X][konc_Y][1];
-						 int stanje = st_potezB - strosek - 1;
+						 int strosek = matrika[zac_X][zac_Y][1];
+						 int stanje = st_potezB - strosek -1 ; 
+						 
 						 if(stanje > 0) {
-							 st_potezB = st_potezB - strosek - 1;
+							 st_potezB = st_potezB - strosek -1;
 							 System.out.println("strosek je "+ st_potezB);
 							 return true;
 						 }
@@ -579,8 +697,8 @@ public class Igra {
 							plosca[zac_X][zac_Y] = naPotezi.getPolje();
 							naPotezi = naPotezi.nasprotnik();
 							st_potezB = 3;
-							 System.out.println("strosek je "+ st_potezB);
-							 return true;
+							System.out.println("strosek je "+ st_potezB);
+							return true;
 
 						 }
 						 if(stanje < 0 ){
@@ -593,27 +711,29 @@ public class Igra {
 					 if((konc_X - zac_X) == 2) {
 						// če preskocimo se steje kot en korak in je OK, ce je vmes zid, ni OK
 						 if(plosca[zac_X + 1][zac_Y]!= Polje.PRAZNO) {
-							 int strosek1 = matrika[konc_X][konc_Y][1];
-							 int strosek2 = matrika[konc_X-1][konc_Y][1];
+							 int strosek1 = matrika[konc_X-1][konc_Y][1];
+							 int strosek2 = matrika[zac_X][konc_Y][1];
 							 if (strosek1 >= 1||strosek2 >= 1 ) {
 								 return false;
 								 }
 
 							 else {
-								 st_potezB = st_potezB - strosek1 - strosek2 - 1;
+								 int stanje = st_potezB - strosek1 - strosek2 - 1;
+								 
 
-								 if(st_potezB > 0) {
+								 if(stanje > 0) {
+									 st_potezB = st_potezB - strosek1 - strosek2 - 1;
 									 System.out.println("strosek je "+ st_potezB);
 									 return true;
 								 }
-								 if(st_potezB== 0) {
+								 if(stanje == 0) {
 									 plosca[zac_X][zac_Y] = naPotezi.getPolje();
 									 naPotezi = naPotezi.nasprotnik();
 									 st_potezB = 3;
 									 System.out.println("strosek je "+ st_potezB);
 									 return true;
 									 }
-								 if(st_potezB < 0 ){
+								 if(stanje < 0 ){
 									 System.out.println("strosek je "+ st_potezB);
 									 return false;
 									 }
@@ -647,20 +767,21 @@ public class Igra {
 				 if(gor) {
 					 if(zac_Y - konc_Y == 1) {
 						 int strosek = matrika[zac_X][zac_Y][0];
-						 st_potezB = st_potezB - strosek-1;
-						 if(st_potezB > 0) {
+						 int stanje = st_potezB - strosek-1;
+						 if(stanje > 0) {
+							 st_potezB = st_potezB - strosek-1;
 							 System.out.println("strosek je "+ st_potezB);
 							 return true;
 						 }
-						 if(st_potezB == 0) {
+						 if(stanje == 0) {
 								 plosca[zac_X][zac_Y] = naPotezi.getPolje();
 								 naPotezi = naPotezi.nasprotnik();
-								 st_potezB =3;
+								 st_potezB = 3;
 								 System.out.println("strosek je "+ st_potezB);
 								 return true;
 
 						 }
-						 if(st_potezB < 0 ){
+						 if(stanje < 0 ){
 							 System.out.println("strosek je "+ st_potezB);
 							 return false;
 							 }
@@ -670,12 +791,30 @@ public class Igra {
 					 if (zac_Y - konc_Y == 2) {
 						 if(plosca[zac_X][zac_Y-1]!= Polje.PRAZNO) {
 							 int strosek1 = matrika[zac_X][zac_Y][0];
-							 int strosek2 = matrika[zac_X][konc_Y -1][0];
+							 int strosek2 = matrika[zac_X][konc_Y+1][0];
 							 if (strosek1 >=1 || strosek2 >=1) {
 								 return false;
 							 }
 							 else {
-								 return true;
+								 int stanje = st_potezB - strosek1 - strosek2 -1;
+								
+								 if (stanje > 0 ) {
+									 st_potezB = st_potezB - strosek1 - strosek2 -1 ;
+									 System.out.println("strosek je "+ st_potezB);
+									 return true;
+								 }
+								 if(stanje == 0) {
+									 plosca[zac_X][zac_Y] = naPotezi.getPolje();
+									 naPotezi = naPotezi.nasprotnik();
+									 st_potezB = 3;
+									 System.out.println("strosek je "+ st_potezB);
+									 return true;
+									 
+								 }
+								 if(stanje < 0) {
+									 return false;
+								 }
+							
 								 }
 							 }
 
@@ -692,38 +831,40 @@ public class Igra {
 				 if(dol) {
 					 if(konc_Y -zac_Y== 1) {
 						 int strosek = matrika[konc_X][konc_Y][0];
-						 st_potezB = st_potezB - strosek - 1;
-						 if(st_potezB > 0) {
+						 int stanje = st_potezB -strosek-1;
+						 if(stanje > 0) {
+							 st_potezB = st_potezB - strosek - 1;
 							 System.out.println("strosek je "+ st_potezB);
 							 return true;
 						 }
-						 if(st_potezB == 0) {
+						 if(stanje == 0) {
 							 plosca[zac_X][zac_Y] = naPotezi.getPolje();
 							 naPotezi = naPotezi.nasprotnik();
 							 st_potezB = 3;
 							 System.out.println("strosek je "+ st_potezB);
 							 return true;
 						 }
-						 if(st_potezB < 0) {
+						 if(stanje < 0) {
 							 return false;
 						 }
 
 					 }
 					 if(konc_Y - zac_Y == 2) {
 						 if(plosca[zac_X][zac_Y + 1]!= Polje.PRAZNO) {
-							 int strosek1 = matrika[zac_Y][konc_Y][0];
-							 int strosek2 = matrika[zac_X][zac_Y+1][0];
-							 st_potezB = st_potezB - strosek1 - strosek2 -1;
+							 int strosek1 = matrika[konc_X][konc_Y][0];
+							 int strosek2 = matrika[konc_X][zac_Y+1][0];
+							 int stanje = st_potezB - strosek1 - strosek2 -1; 
 							 if(strosek1 >= 1|| strosek2 >= 1) {
 
 								 return false;
 								 }
-							 if(st_potezB > 0 ) {
+							 if(stanje > 0 ) {
+								 st_potezB = st_potezB - strosek1 - strosek2 -1;
 								 System.out.println("strosek je "+ st_potezB);
 								 return true;
 
 							 	}
-							 if(st_potezB == 0) {
+							 if(stanje == 0) {
 								 plosca[zac_X][zac_Y] = naPotezi.getPolje();
 								 naPotezi = naPotezi.nasprotnik();
 								 st_potezB =3;
@@ -731,7 +872,7 @@ public class Igra {
 								 return true;
 
 							 	}
-							 if(st_potezB < 0){
+							 if(stanje < 0){
 								 return false;
 								 }
 							 }
@@ -754,3 +895,4 @@ public class Igra {
 		return false;
 		 }
 	}
+

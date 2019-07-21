@@ -66,18 +66,15 @@ public class Vodja {
 	public void racunalnikovaPoteza() {
 		List<OcenjenaPoteza> ocenjenePoteze = Minimax.oceniPoteze (igra, 2, beli.nasprotnik());
 		Poteza poteza = Minimax.maxPoteza(ocenjenePoteze);
-		if(igra.odigraj(poteza)) {
-			System.out.println("smo v racunalnikova Poteza");
-
-			int zacX= poteza.getX0();
-			int zacY = poteza.getY0();
-			int koncX = poteza.getX();
-			int koncY = poteza.getY();
-//			
-			Polje[][] plosca = igra.getPlosca();
-			plosca[zacX][zacY]= Polje.PRAZNO;
-			plosca[koncX][koncY]= Polje.C;
-		}
+		System.out.println("smo v racunalnikova Poteza");
+		int zacX= poteza.getX0();
+		int zacY = poteza.getY0();
+		int koncX = poteza.getX();
+		int koncY = poteza.getY();
+		Polje[][] plosca = igra.getPlosca();
+		plosca[zacX][zacY]= Polje.PRAZNO;
+		plosca[koncX][koncY]= Polje.C;
+	
 		igramo();
 	}
 //	
@@ -96,6 +93,7 @@ public class Vodja {
 			plosca[koncX][koncY]= Polje.B;
 			
 //			naVrstiB = false;
+			okno.repaint();
 			igramo();
 			
 			

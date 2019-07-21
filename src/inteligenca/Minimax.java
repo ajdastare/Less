@@ -117,18 +117,26 @@ public class Minimax {
 		int vrstice = 0;
 		int stolpci = 0; 
 		int skupaj = 0; 
+		
 		if (jaz == Igralec.C) {
 			for (int i=0; i < 6; i++) {
 				for (int j = 0; j<6; j++) {
 					if (plosca[i][j] == Polje.C) {
-						for(int x = i; x >0; x--) {
+						int x= i-1;
+						int y = j;
+						while(x >= 0){
 							// štejemo stroške po vrstici
-							// gremo v levozato nas zanimajo leve ograje
-							vrstice = vrstice + matrika[x][j][1];	
-					}
-						for(int y =j; j>0; j--) {
-							stolpci= stolpci + matrika[0][y][0];						}
-				}
+							// gremo v levo in gledamo desne ograje 
+							int strosek = matrika[x][j][1];
+							vrstice += strosek + 1;
+							x = x - 1;
+							}
+						while(y >0){
+							int strosek = matrika[0][y][0];
+							stolpci += strosek + 1;
+							y = y-1;
+							}
+						}
 					// na ta nacin vsak grogec spravimo v levi kot (0,0) kar ni najbol optimalno 
 			}
 			
@@ -140,7 +148,7 @@ public class Minimax {
 					if (plosca[i][j] == Polje.B) {
 						// štejemo stroške po vrstici
 						// gremo v desno zato nas zanimajo desne ograje
-						for(int x = i+1; x < 6; x++) {
+						for(int x = i; x <= 4 ; x++) {
 								vrstice = vrstice + matrika[x][j][1];	
 						}
 						for(int y =j+1; j<6; j++) {
@@ -151,6 +159,8 @@ public class Minimax {
 					}
 					}
 		skupaj = vrstice + stolpci;
+		vrstice = 0;
+		stolpci = 0;
 		return skupaj;
 	}
 	

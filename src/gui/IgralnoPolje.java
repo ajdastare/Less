@@ -12,7 +12,7 @@ import java.util.LinkedList;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.sun.tools.javac.code.Attribute.*;
+//import com.sun.tools.javac.code.Attribute;
 
 import logika.Vodja;
 import logika.Igra;
@@ -77,8 +77,7 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 	 */
 
 	private void paintC(Graphics2D g2, int i, int j) {
-		System.out.println("nariši C na plosci " + i+","+j);
-
+	
 		int w = squareWidth();//500 x500
 //		double h = w/12;
 
@@ -118,7 +117,7 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 	 * @param j
 	 */
 	private void paintB(Graphics2D g2, int i, int j) {
-		System.out.println("nariši B na plosci " + i+","+j);
+		
 		int w = squareWidth();//500 x500
 		double h = w/12;
 
@@ -135,25 +134,7 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 		g2.fillOval((int)x, (int)y, (int)r , (int)r);
 		g2.drawOval((int)x, (int)y, (int)r , (int)r);
 	}
-//	private void paintPrazno(Graphics2D g2, int i, int j) {
-//
-//		int w = squareWidth();//500 x500
-//		double h = w/12;
-//
-//
-//		double r = w /2 - 2* 6*w/2 *LINE_WIDTH ; // premer O
-//
-////
-//		double x = i+6*w/2 *LINE_WIDTH;
-////
-//		double y = j + 6*w/2 *LINE_WIDTH;
-//
-//		System.out.println("nariši PRAZNO na" + x+","+y + "koordinatah");
-//		g2.setColor(Color.WHITE);
-//		g2.setStroke(new BasicStroke((float) (w * LINE_WIDTH), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-//		g2.fillOval((int)i, (int)x, (int)y, (int)r);
-//		g2.drawOval((int)i, (int)x, (int)y , (int)r);
-//	}
+
 
 
 
@@ -286,13 +267,12 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 					) {
 			pozicija = zacetna1;
 
-//			System.out.println("Zacetna pozicijaB"+zacetna1);
-//			System.out.println(pozicija);
+//			
 			}
 
 		}else {
 			pozicija= zacetna1;
-//			System.out.println("Zacetna pozicijaC"+zacetna1);
+//			
 
 		}
 	}
@@ -318,8 +298,7 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 		// trenutni (i,j) bi radi zabeležili da bomo lahko izračunali poteze
 
 		Poteza koncna = new Poteza(pozicija.getX(),pozicija.getY(),i,j);
-		System.out.println(koncna + " krogec bo tu.");
-
+	
 
 
 
@@ -327,18 +306,12 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 		if (vodja.naVrstiB) {
 			if (0 <= i && i < 6 &&
 					0 <= j && j < 6 ) {
-//				System.out.println("Tukaj smo");
+
 				vodja.clovekovaPoteza(koncna);
 
-//				Polje [][] plosca = vodja.igra.getPlosca();
-//				plosca[i][j] = Polje.B;
-//				repaint();
 
 			}
 			repaint();
-//			Polje [][] plosca = vodja.igra.getPlosca();
-//			plosca[i][j] = Polje.B;
-//			repaint();
 
 			}
 
@@ -348,9 +321,7 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 						0.5 * LINE_WIDTH < di && di < 1.0 - 0.5 * LINE_WIDTH &&
 						0 <= j && j < Igra.N &&
 						0.5 * LINE_WIDTH < dj && dj < 1.0 - 0.5 * LINE_WIDTH) {
-//					vodja.clovekovaPoteza(new Poteza(i, j));
-//					pozicijaC.add(koncna);
-//
+//					
 				}
 				}
 		repaint();

@@ -31,6 +31,6 @@ public class Poteza {
 
 	@Override
 	public String toString() {
-		return "Poteza [x=" + x + ", y=" + y + "]";
+		return "Poteza [x0 ="+ x0+", y0="+y0+ ", x=" + x + ", y=" + y + "]";
 	}
 }
