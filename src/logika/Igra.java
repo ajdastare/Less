@@ -115,6 +115,7 @@ public class Igra {
 				podatki[i][3][3] = vr4;  
 				podatki[i-3][2][1] = vr4;
 		}
+			
 		}
 		for (int i=0; i<4; ++i) {
 			koti[i] = false;
@@ -127,12 +128,12 @@ public class Igra {
 				int[] ograje = new int[4];
 				ograje = podatki[i][j];
 				int[] zg_l = new int[2];
-				zg_l[0] = ograje[0];
+				zg_l[0] = ograje[2];
 				zg_l[1] = ograje[3];
 				int t = 0;
 				if (j != 0) t = ((j + 3) % 3) / j;
 				
-				matrika[(i - ((i + 3) % 3))* 2/3 + t][5- (5 - 2 * ((i + 3) % 3) - (j -(j + 2) % 2)/2)] = zg_l;
+				matrika[5 - 2 * ((i + 3) % 3) - (j -(j + 2) % 2)/2][(i - ((i + 3) % 3))* 2/3 + t] = zg_l;
 			}
 			
 		}
@@ -246,7 +247,7 @@ public class Igra {
 					}else if (i-2 >= 0) {
 							if(plosca[i-2][j]== Polje.PRAZNO) {
 	
-								if(matrika[i][j][1] == 0 && matrika[i-1][j][1]==0) {
+								if(matrika[i][j][1] == 0 && matrika[i-1][j][1]== 0) {
 									preskakujemo = true;
 									ps.add(new Poteza(i,j,i-2,j));
 								} else {
@@ -501,16 +502,19 @@ public class Igra {
 						 st_potezB = st_potezB - strosek-1 ; 
 						 
 						 if(st_potezB > 0) {
+							 System.out.println("strosek je "+ st_potezB);
 							 return true; 
 							 
 							 }
 						 if(st_potezB == 0) {
+							 System.out.println("strosek je "+ st_potezB);
 							plosca[zac_X][zac_Y] = naPotezi.getPolje();
 							naPotezi = naPotezi.nasprotnik();
 							st_potezB = 3;
 							 return true; 	 
 							 }
 						 if(st_potezB < 0 ){
+							 System.out.println("strosek je "+ st_potezB);
 							 return false;
 							 }
 						 }
@@ -529,15 +533,19 @@ public class Igra {
 								 int stanje = st_potezB - strosek1-strosek2-1 ; 
 								 st_potezB = st_potezB - strosek1 -strosek2 - 1;
 								 if(stanje > 0) {
+									 System.out.println("strosek je "+ st_potezB);
 								 return true;
 								 }
 								 if(stanje == 0) {
+									 
 									 plosca[konc_X][konc_Y] = naPotezi.getPolje();
 									 naPotezi = naPotezi.nasprotnik();
 									 st_potezB = 3;
+									 System.out.println("strosek je "+ st_potezB);
 									 return true; 
 								 	}
 								 if(stanje < 0 ){
+									 System.out.println("strosek je "+ st_potezB);
 									 return false; 
 								 	}
 							 }
@@ -563,16 +571,19 @@ public class Igra {
 						 int stanje = st_potezB - strosek - 1; 
 						 if(stanje > 0) {
 							 st_potezB = st_potezB - strosek - 1;
+							 System.out.println("strosek je "+ st_potezB);
 							 return true; 
 						 }
 						 if(stanje == 0) {
 							plosca[zac_X][zac_Y] = naPotezi.getPolje();
 							naPotezi = naPotezi.nasprotnik();
 							st_potezB = 3;
+							 System.out.println("strosek je "+ st_potezB);
 							 return true; 
 							 
 						 }
 						 if(stanje < 0 ){
+							 System.out.println("strosek je "+ st_potezB);
 							 return false; 
 							 }
 						 }
@@ -591,15 +602,18 @@ public class Igra {
 								 st_potezB = st_potezB - strosek1 - strosek2 - 1;
 							 
 								 if(st_potezB > 0) {
+									 System.out.println("strosek je "+ st_potezB);
 									 return true; 
 								 }
 								 if(st_potezB== 0) {
 									 plosca[zac_X][zac_Y] = naPotezi.getPolje();
 									 naPotezi = naPotezi.nasprotnik();
 									 st_potezB = 3;
+									 System.out.println("strosek je "+ st_potezB);
 									 return true; 
 									 }
 								 if(st_potezB < 0 ){
+									 System.out.println("strosek je "+ st_potezB);
 									 return false; 
 									 }
 							 }
@@ -633,16 +647,20 @@ public class Igra {
 					 if(zac_Y - konc_Y == 1) {
 						 int strosek = matrika[zac_X][zac_Y][0];
 						 st_potezB = st_potezB - strosek-1; 
-						 if(st_potezB > 0) {return true; 
+						 if(st_potezB > 0) {
+							 System.out.println("strosek je "+ st_potezB);
+							 return true; 
 						 }
 						 if(st_potezB == 0) {
 								 plosca[zac_X][zac_Y] = naPotezi.getPolje();
 								 naPotezi = naPotezi.nasprotnik();
 								 st_potezB =3;
+								 System.out.println("strosek je "+ st_potezB);
 								 return true; 
 							 
 						 }
 						 if(st_potezB < 0 ){
+							 System.out.println("strosek je "+ st_potezB);
 							 return false; 
 							 }
 					 
@@ -651,7 +669,7 @@ public class Igra {
 					 if (zac_Y - konc_Y == 2) {
 						 if(plosca[zac_X][zac_Y-1]!= Polje.PRAZNO) {
 							 int strosek1 = matrika[zac_X][zac_Y][0];
-							 int strosek2 = matrika[zac_X][konc_Y +1][0];
+							 int strosek2 = matrika[zac_X][konc_Y -1][0];
 							 if (strosek1 >=1 || strosek2 >=1) {
 								 return false;
 							 }
@@ -675,12 +693,14 @@ public class Igra {
 						 int strosek = matrika[konc_X][konc_Y][0];
 						 st_potezB = st_potezB - strosek - 1;
 						 if(st_potezB > 0) {
+							 System.out.println("strosek je "+ st_potezB);
 							 return true;
 						 }
 						 if(st_potezB == 0) {
 							 plosca[zac_X][zac_Y] = naPotezi.getPolje();
 							 naPotezi = naPotezi.nasprotnik();
 							 st_potezB = 3; 
+							 System.out.println("strosek je "+ st_potezB);
 							 return true;
 						 }
 						 if(st_potezB < 0) {
@@ -690,13 +710,15 @@ public class Igra {
 					 }
 					 if(konc_Y - zac_Y == 2) {
 						 if(plosca[zac_X][zac_Y + 1]!= Polje.PRAZNO) {
-							 int strosek1 = matrika[zac_X][konc_Y][0];
+							 int strosek1 = matrika[zac_Y][konc_Y][0];
 							 int strosek2 = matrika[zac_X][zac_Y+1][0];
 							 st_potezB = st_potezB - strosek1 - strosek2 -1;
 							 if(strosek1 >= 1|| strosek2 >= 1) {
+								 
 								 return false;
 								 }
 							 if(st_potezB > 0 ) {
+								 System.out.println("strosek je "+ st_potezB);
 								 return true;
 								
 							 	}
@@ -704,6 +726,7 @@ public class Igra {
 								 plosca[zac_X][zac_Y] = naPotezi.getPolje();
 								 naPotezi = naPotezi.nasprotnik();
 								 st_potezB =3;
+								 System.out.println("strosek je "+ st_potezB);
 								 return true;
 								 
 							 	}

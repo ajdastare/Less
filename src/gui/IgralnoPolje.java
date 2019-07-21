@@ -101,7 +101,7 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 //		y = y/10;
 //		
 		double y = j +6*w/2 *LINE_WIDTH;
-		System.out.println("nariši C na" + x+","+y+ "koordinatah");
+//		System.out.println("nariši C na" + x+","+y+ "koordinatah");
 		
 		g2.setColor(Color.black);
 		g2.setStroke(new BasicStroke((float)(w* LINE_WIDTH), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
@@ -129,7 +129,7 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 		double x = i+6*w/2 *LINE_WIDTH;
 //		
 		double y = j + 6*w/2 *LINE_WIDTH;
-		System.out.println("nariši B na" + x+","+y+ "koordinatah");
+//		System.out.println("nariši B na" + x+","+y+ "koordinatah");
 		g2.setColor(Color.ORANGE);
 		g2.setStroke(new BasicStroke((float) (w * LINE_WIDTH), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 		g2.fillOval((int)x, (int)y, (int)r , (int)r);
@@ -162,8 +162,8 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 		g2.setColor(Color.RED);
 		double[] x1_koor = {zacetekX, zacetekX + h, zacetekX + h, zacetekX};
 		double[] x2_koor = {zacetekX + h, zacetekX + h, zacetekX, zacetekX};
-		double[] y1_koor = {zacetekY + h, zacetekY + h, zacetekY, zacetekY};
-		double[] y2_koor = {zacetekY + h, zacetekY, zacetekY, zacetekY + h};
+		double[] y1_koor = {zacetekY - h, zacetekY - h, zacetekY, zacetekY};
+		double[] y2_koor = {zacetekY - h, zacetekY, zacetekY, zacetekY - h};
 		for (int i = 0; i<ograje.length; i++) {
 			if (ograje[i] != 0) {
 				g2.setStroke(new BasicStroke((float) (h * LINE_WIDTH * 3 * ograje[i])));
@@ -182,7 +182,7 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 		double h = squareWidth()/2;
 		g2.setColor(Color.red);
 		double[] x_os = {zaceteX, zaceteX + h, zaceteX + h, zaceteX};
-		double[] y_os = {zacetekY + h, zacetekY + h, zacetekY, zacetekY};
+		double[] y_os = {zacetekY - h, zacetekY - h, zacetekY, zacetekY};
 		for (int i=0; i<4; ++i) {
 			int[] ograje = podstavek[i];
 			narisiOgraje(g2, ograje, x_os[i], y_os[i]);
@@ -308,13 +308,13 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 					) {
 			pozicija = zacetna1;
 			
-			System.out.println("Zacetna pozicijaB"+zacetna1);
-			System.out.println(pozicija);
+//			System.out.println("Zacetna pozicijaB"+zacetna1);
+//			System.out.println(pozicija);
 			}
 			
 		}else {
 			pozicija= zacetna1;
-			System.out.println("Zacetna pozicijaC"+zacetna1);
+//			System.out.println("Zacetna pozicijaC"+zacetna1);
 			
 		}
 	}
@@ -349,7 +349,7 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 		if (vodja.naVrstiB) {
 			if (0 <= i && i < 6 &&
 					0 <= j && j < 6 ) {
-				System.out.println("Tukaj smo");
+//				System.out.println("Tukaj smo");
 				vodja.clovekovaPoteza(koncna);
 				
 //				Polje [][] plosca = vodja.igra.getPlosca();

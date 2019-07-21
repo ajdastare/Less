@@ -62,7 +62,6 @@ public class Minimax {
 		switch (stanje) {
 		case ZMAGA_B: return (jaz == Igralec.B ? ZMAGA : ZGUBA);
 		case ZMAGA_C: return (jaz == Igralec.C ? ZMAGA : ZGUBA);
-		case NEODLOCENO: return (NEODLOC);
 		default:
 		// Nekdo je na potezi
 		if (globina == 0) {return oceniPozicijo(igra, jaz);}
@@ -122,12 +121,12 @@ public class Minimax {
 			for (int i=0; i < 6; i++) {
 				for (int j = 0; j<6; j++) {
 					if (plosca[i][j] == Polje.C) {
-						for(int x = i; x >= 0; x--) {
+						for(int x = i; x >0; x--) {
 							// štejemo stroške po vrstici
 							// gremo v levozato nas zanimajo leve ograje
 							vrstice = vrstice + matrika[x][j][1];	
 					}
-						for(int y =j; j>=0; j--) {
+						for(int y =j; j>0; j--) {
 							stolpci= stolpci + matrika[0][y][0];						}
 				}
 					// na ta nacin vsak grogec spravimo v levi kot (0,0) kar ni najbol optimalno 
@@ -151,7 +150,7 @@ public class Minimax {
 					}
 					}
 					}
-		skupaj = vrstice+ stolpci;
+		skupaj = vrstice + stolpci;
 		return skupaj;
 	}
 	
