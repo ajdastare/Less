@@ -30,7 +30,6 @@ import logika.Podstavek;
  */
 @SuppressWarnings("serial")
 public class IgralnoPolje extends JPanel implements MouseListener {
-	private JLabel statusbar;
 	private Vodja vodja;
 	boolean dragging = false;
 
@@ -79,28 +78,9 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 	private void paintC(Graphics2D g2, int i, int j) {
 	
 		int w = squareWidth();//500 x500
-//		double h = w/12;
-
 		double r = w /2 - 2* 6*w/2 *LINE_WIDTH ; // premer O
-//
-//		double x = (((i%3)*4)+1)*h;
-//		if (j == 1 || j == 3) {
-//			x =  x + 2 * h;
-//
-//		}
-//
-//		// + 1 če je j 1 ali 3, oziroma + 0 če je j (0 ,2)
-
 		double x = i+6*w/2 *LINE_WIDTH;
-//		double y = ((i/3) * 4 +1)*h;
-//		if (j == 2||j == 3) {
-//			y = y + 2 * h;
-//
-//		}
-//		y = y/10;
-//
 		double y = j +6*w/2 *LINE_WIDTH;
-//		System.out.println("nariši C na" + x+","+y+ "koordinatah");
 
 		g2.setColor(Color.black);
 		g2.setStroke(new BasicStroke((float)(w* LINE_WIDTH), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
@@ -121,20 +101,15 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 		int w = squareWidth();//500 x500
 		double h = w/12;
 
-
 		double r = w /2 - 2* 6*w/2 *LINE_WIDTH ; // premer O
-
-//
 		double x = i+6*w/2 *LINE_WIDTH;
-//
 		double y = j + 6*w/2 *LINE_WIDTH;
-//		System.out.println("nariši B na" + x+","+y+ "koordinatah");
+
 		g2.setColor(Color.ORANGE);
 		g2.setStroke(new BasicStroke((float) (w * LINE_WIDTH), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 		g2.fillOval((int)x, (int)y, (int)r , (int)r);
 		g2.drawOval((int)x, (int)y, (int)r , (int)r);
 	}
-
 
 
 
@@ -145,20 +120,7 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 
 		int w = squareWidth();
 
-//		 ce imamo zmagovalni kot, njegovo ozadje pobarvamo
-//		Vrsta t = null;
-//		if (vodja.igra != null) {t = vodja.igra.zmagovalnaPoteza();}
-//		if (t != null) {
-//			g2.setColor(new Color(255, 255, 196));
-//			for (int k = 0; k < Igra.N; k++) {
-//				int i = t.x[k];
-//				int j = t.y[k];
-//				g2.fillRect((int)(w * i), (int)(w * j), (int)w, (int)w);
-//			}
-//		}
-
-
-		// crte
+		// Podlaga igre brez podstavkov
 		g2.setColor(Color.gray);
 		g2.setStroke(new BasicStroke((float) (w * LINE_WIDTH*2)));
 		for (int i = 0; i < Math.sqrt(Igra.N)+1; i++) {
@@ -186,7 +148,6 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 		System.out.println(vodja);
 
 		//nastavljanje izgleda izzrebanih podstavkov
-
 		int h = w/2;
 
 		g2.setColor(Color.red);
@@ -212,12 +173,8 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 			}
 		}
 
-
-
 		System.out.println(vodja);
-
 		Polje[][] plosca;
-
 
 		if (vodja.igra != null) {
 			plosca = vodja.igra.getPlosca();
@@ -226,11 +183,9 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 					switch(plosca[i][j]) {
 					case C: paintC(g2, i * h,j* h); break;
 					case B: paintB(g2,i * h , j*h); break;
-//					case PRAZNO: paintPrazno(g2,x_os[i], y_os[j]);break;
 					default: break;
 					}
 							}
-
 		}
 		}
 		}
@@ -242,9 +197,6 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 	}
 
 
-
-
-
 	@Override
 	public void mousePressed(MouseEvent e) {
 		int x = e.getX();
@@ -252,11 +204,8 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 		int w = (int)(squareWidth());
 		int h = w/2;
 		int i = x /h ;
-//		double di = (x % h) / h;
 		int j = y / h ;
-//		double dj = (y % h) / h ;
-
-
+		
 		// trenutni (i,j) bi radi zabeležili da bomo lahko izračunali poteze
 
 		 Pozicija zacetna1 = new Pozicija(i,j);
@@ -265,28 +214,13 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 			if(0 <= i && i < 6 &&
 					0 <= j && j < 6
 					) {
-			pozicija = zacetna1;
-
-//			
+			pozicija = zacetna1;		
 			}
-
 		}
-//		if(vodja.naVrstiC){
-//			if(0 <= i && i < 6 &&
-//					0 <= j && j < 6
-//					) {
-//			pozicija= zacetna1;
-//			}
-//		}
-//			
 		}
 	
 
-
-
-
 	public void mouseDragged(MouseEvent e) {
-//		}
 	}
 
 	@Override
@@ -296,48 +230,19 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 		int w = (int)(squareWidth());
 		int h = w/2;
 		int i = x /h ;
-		double di = (x % h) / h;
 		int j = y / h ;
-		double dj = (y % h) / h ;
 
 		// trenutni (i,j) bi radi zabeležili da bomo lahko izračunali poteze
-
 		Poteza koncna = new Poteza(pozicija.getX(),pozicija.getY(),i,j);
-	
-
-
-
 
 		if (vodja.clovekNaVrsti) {
 			if (0 <= i && i < 6 &&
 					0 <= j && j < 6 ) {
-
 				vodja.clovekovaPoteza(koncna);
-
-
 			}
 			repaint();
-
 			}
-
-
-//		if (vodja.naVrstiC) {
-//			if (0 <= i && i < 6 &&
-//					0 <= j && j < 6 ) {
-//
-//				vodja.clovekovaPoteza(koncna);
-//
-//
-//			}
-//			repaint();
-//
-//		}
 	}
-
-
-
-
-
 
 	@Override
 	/* enter space
@@ -349,7 +254,4 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 	@Override
 	public void mouseExited(MouseEvent e) {
 	}
-
-
-
 }

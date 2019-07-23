@@ -12,16 +12,13 @@ import logika.Polje;
 
 
 public class Racunalnik {
-private static final Random RANDOM = new Random();
-	
-	private static final int ZMAGA = 50; // vrednost zmage, veÄ kot vsaka druga ocena pozicije
-//	private static final int ZGUBA = -ZMAGA;  // vrednost izgube, mora biti -ZMAGA
-//	private static final int NEODLOC = 0;  // vrednost neodloÄene igre	
 	
 	public static List<OcenjenaPoteza> oceniPoteze(Igra igra, Igralec jaz) {
-		List<OcenjenaPoteza> ocenjenePoteze = new LinkedList<OcenjenaPoteza> ();
-		List<OcenjenaPoteza> moznePoteze = igra.poteze();
+	List<OcenjenaPoteza> ocenjenePoteze = new LinkedList<OcenjenaPoteza> ();
+	List<OcenjenaPoteza> moznePoteze = igra.poteze();
 	
+	//Pregleda vse mozne pozicije in oceni njihove vrednosti s funkcijo oceniPozicijo.
+	//Te vredosti doda seznamu ocenjenePoteze.
 		for (OcenjenaPoteza p: moznePoteze) {
 			Igra tempIgra = new Igra(igra);
 			Polje[][] tempPlosca = tempIgra.getPlosca();
@@ -37,7 +34,6 @@ private static final Random RANDOM = new Random();
 					tempPlosca[koncX][koncY] = Polje.B;
 				}	
 				int vrednost_poteze = oceniPozicijo(tempIgra,jaz);
-				// tu bi lahko dodala oceniPozicijo + oceniPoteze(igra igra...)
 				ocenjenePoteze.add(new OcenjenaPoteza(p.poteza,p.strosek, vrednost_poteze));
 	
 	}else {
@@ -46,13 +42,6 @@ private static final Random RANDOM = new Random();
 		return ocenjenePoteze;
 	}
 	// na vsakem koraku zgoraj dobimo ocenjene poteze 
-	
-//	public static Poteza globina(Igra igra, Poteza poteza, int globina,Igralec jaz) {
-//		List<OcenjenaPoteza> ocenjenePoteze = oceniPoteze(igra, jaz);
-//		// na ta nacin dobimo poteze in ocene
-//		Poteza najboljsa = maxPoteza(ocenjenePoteze);
-//		
-//	}
 	
 	
 	public static int oceniPozicijo(Igra igra, Igralec jaz) {
@@ -63,18 +52,14 @@ private static final Random RANDOM = new Random();
 		int vrstice = 0;
 		int stolpci = 0; 
 		int skupaj = 0; 
-		int stevec = 0;
 		if (jaz == Igralec.C) {
 			for (int i=0; i < 6; i++) {
 				for (int j = 0; j<6; j++) {
 					if (plosca[i][j] == Polje.C) {
-						
-						stevec += 1;
-//						if(stevec == 1) {
 							int x = i;
 							int y = j;
 							while(x >= 1){
-							// štejemo stroške po vrstici
+							// Stejemo stroske po vrstici
 							// gremo v levo in gledamo desne ograje 
 								int strosek = matrika[x-1][j][1];
 								vrstice += strosek + 1;
@@ -85,8 +70,6 @@ private static final Random RANDOM = new Random();
 							}
 							if(x == 0) {
 								vrstice = vrstice + matrika[x][j][1]+ 1;
-//							}
-							
 							while(y>=1){
 								// do (0,0)
 								int strosek = matrika[0][y][0];
@@ -97,102 +80,15 @@ private static final Random RANDOM = new Random();
 								stolpci = stolpci ;
 							}
 							}
-//						if(stevec == 2){
-//							int x= i;
-//							int y = j;
-//							while(x >= 2){// gremo do (1,0)
-//							// štejemo stroške po vrstici
-//							// gremo v levo in gledamo desne ograje 
-//								int strosek = matrika[x-1][j][1];
-//								vrstice += strosek + 1;
-//								x = x - 1;
-//								}
-//							if(x == 1) {
-//								vrstice = vrstice + matrika[x][j][1]+1;
-//							}
-//							if(i == 1) {
-//								vrstice = vrstice;
-//							}
-//							while(y>=1){
-//								// do (1,0)
-//								int strosek = matrika[1][y][0];
-//								stolpci += strosek + 1;
-//								y = y-1;
-//								}
-//							if(y == 0) {
-//								stolpci = stolpci;
-//							}
-//							
-//						}
-//						if(stevec == 3) {
-//							int x= i;
-//							int y = j;
-//							while(x >= 1){
-//							// štejemo stroške po vrstici
-//							// gremo v levo in gledamo desne ograje 
-//								int strosek = matrika[x-1][j][1];
-//								vrstice += strosek + 1;
-//								x = x - 1;
-//								}
-//							if(x == 0) {
-//								vrstice = vrstice+ matrika[0][j][1] +1 ;
-//							}
-//							if(i == 0) {
-//								vrstice = vrstice;
-//							}
-//							while(y >=2){
-//								// gremo do (0,1)
-//								int strosek = matrika[0][y][0];
-//								stolpci += strosek + 1;
-//								y = y-1;
-//								}
-//							if(y == 1) {
-//								stolpci = stolpci;
-//							}
-//							
-//						}
-//						if(stevec == 4) {
-//							int x= i;
-//							int y = j;
-//							while(x >= 2){
-//							// štejemo stroške po vrstici
-//							// gremo v levo in gledamo desne ograje 
-//								int strosek = matrika[x-1][j][1];
-//								vrstice += strosek + 1;
-//								x = x - 1;
-//								}
-//							if(x == 1) {
-//								vrstice= vrstice + matrika[1][j][1]+1;
-//								}
-//							if(i == 1) {
-//								vrstice = vrstice;
-//							}
-//							while(y >=2){
-//								// gremo do (1,1)
-//								int strosek = matrika[1][y][0];
-//								stolpci += strosek + 1;
-//								y = y-1;
-//								}
-//							if(y ==1) {
-//								stolpci = stolpci;
-//							}
-//							
-//						
-//						}
-						
-					
 					}
-					
-				
 			}
-			
 		}
 		}
 		if (jaz == Igralec.B ) {
 			for (int i=0; i < 6; i++) {
 				for (int j = 0; j<6; j++) {
 					if (plosca[i][j] == Polje.B) {
-						// štejemo stroške po vrstici
+						// Stejemo stroske po vrstici
 						// gremo v desno zato nas zanimajo desne ograje
 						for(int x = i; x <= 4 ; x++) {
 								vrstice = vrstice + matrika[x][j][1];	
@@ -209,19 +105,4 @@ private static final Random RANDOM = new Random();
 		stolpci = 0;
 		return skupaj;
 	}
-	
-	
-	
-//	public static OcenjenaPoteza maxPoteza(List<OcenjenaPoteza> ocenjenePoteze) {
-//		int max = ZMAGA;
-//		OcenjenaPoteza poteza = null;
-//		for (OcenjenaPoteza ocenjenaPoteza : ocenjenePoteze) {
-//			if (ocenjenaPoteza.vrednost <= max) {
-//				max = ocenjenaPoteza.vrednost;
-//				poteza = ocenjenaPoteza;			
-//			}
-//		}
-//		return poteza;
-//	}
-
 }

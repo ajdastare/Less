@@ -2,10 +2,6 @@ package inteligenca;
 
 import logika.Poteza;
 
-/**
- * @author simpson
- *
- */
 public class OcenjenaPoteza {
 	
 	public Poteza poteza;

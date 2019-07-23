@@ -7,9 +7,9 @@ import inteligenca.OcenjenaPoteza;
 public class Igra {
 
 
-	// Velikost igralne pološče je N*2 x N*2.
-	public static final int N = 9;
-	public static final int M = 4;
+	// Velikost igralne pološče je 6 x 6.
+	public static final int N = 9; //stevilo izzrebanih podstavkov
+	public static final int M = 4; //stevilo ograj (stroski prehodov na sosednje polje)
 	public int st_potezB = 3;
 
 	// Igralno polje
@@ -32,9 +32,12 @@ public class Igra {
 	public static final Podstavek p10 = new Podstavek("10");
 	public static final Podstavek p11 = new Podstavek("11");
 	public static final Podstavek p12 = new Podstavek("12");
-
+	
+	// podatki vsebujejo informacije o podstavkih glede na podstavek
 	public static final int[][][] podatki = new int[N][M][4];
-
+	
+	//matrika vsebuje informacijo o prehodih glede na mesto (i,j) v plosci, kjer
+	//je i x koordinata in  j y koordinata
 	public static final int[][][] matrika = new int[6][6][2];
 
 	//koti so mesta (0,0)...(2,0)...(6,0)...(8,0)
@@ -135,13 +138,9 @@ public class Igra {
 				zg_l[1] = ograje[1];
 				int t = 0;
 				if (j != 0) t = ((j + 3) % 3) / j;
-
 				matrika[(i - ((i + 3) % 3))* 2/3 + t][5 - (5 - 2 * ((i + 3) % 3) - (j -(j + 2) % 2)/2)] = zg_l;
-
 			}
-
 		}
-
 	}
 
 
@@ -149,17 +148,15 @@ public class Igra {
 	 * Nova igra, v zacetni poziciji je prazna in na potezi je B.
 	 */
 	public Igra() {
-		//igralec B se odloci, v katerem kotu bo zacel. Ta kot se potem nastavi na B in nasprotni na C.
-		//Na zacetku so vsa mesta prazna.
+		//Beli igralec zacne v zgornjem levem kotu, crni v spodnjem desnem
+		//Na zacetku so vsa ostala mesta prazna.
 		plosca = new Polje[6][6];
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 6; j++) {
 				plosca[i][j] = Polje.PRAZNO;
 			}
-
 		}
 
-//
 		plosca[0][0]= Polje.B;
 		plosca[1][1]= Polje.B;
 		plosca[1][0]= Polje.B;
@@ -169,19 +166,16 @@ public class Igra {
 		plosca[4][5] = Polje.C;
 		plosca[5][4] = Polje.C;
 		plosca[5][5] = Polje.C;
-//
-		// še ostale od 0- 4 in še za C nastavit ostale
+
 		naPotezi = Igralec.B;
-
-
 	}
 
 
-//	/**
-//	 * Nova kopija dane igre
-//	 *
-//	 * @param igra
-//	 */
+	/**
+	 * Nova kopija dane igre
+	 *
+	 * @param igra
+	 */
 	public Igra(Igra igra) {
 		plosca = new Polje[6][6];
 		for (int i = 0; i < 6; i++) {
@@ -189,7 +183,6 @@ public class Igra {
 				plosca[i][j] = igra.plosca[i][j];
 			}
 		}
-//
 		this.naPotezi = igra.naPotezi;
 	}
 
@@ -205,20 +198,20 @@ public class Igra {
 	/**
 	 * @return seznam moznih potez
 	 */
-//	to so te poteze ki so še na voljo torej ni nobenega gor
-// tiste poteze ki jih je mozno opravit na trenutni plosci
+	
+
 
 	public List<OcenjenaPoteza> poteze() {
+		//to so poteze, ki so še na voljo, torej ni nobenega gor
+		// tiste poteze ki jih je mozno opravit na trenutni plosci
+		
 		LinkedList<OcenjenaPoteza> ps = new LinkedList<OcenjenaPoteza>();
 		LinkedList<Poteza> ps1 = new LinkedList<Poteza>();
 		if (naPotezi == Igralec.C ) {
 			for (int i = 0; i < 6; i++) {
 				for (int j = 0; j < 6; j++) {
 
-
-				// mislm da morm locit na vodoravno navpicno
 					if (plosca[i][j] == Polje.C) {
-
 
 					// na desno
 					boolean na_desno = false;
@@ -230,13 +223,11 @@ public class Igra {
 					if(i+1 < 6) {
 					if(plosca[i+1][j] == Polje.PRAZNO){
 						na_desno = true;
-
 					}
 					}
 					if(i-1 >=0) {
 					if(plosca[i-1][j]== Polje.PRAZNO) {
 						na_levo = true;
-
 					}
 					}
 					if(j+1 <6) {
@@ -253,7 +244,6 @@ public class Igra {
 
 					if(na_levo) {
 						Poteza poteza = new Poteza(i,j,i-1,j);
-
 						ps.add(new OcenjenaPoteza(poteza, matrika[i-1][j][1] +1, 0));
 					}else if (i-2 >= 0) {
 							if(plosca[i-2][j]== Polje.PRAZNO) {
@@ -269,10 +259,10 @@ public class Igra {
 								preskakujemo = false;
 							}
 						}
+					
 					if(na_desno) {
 						Poteza poteza = new Poteza(i,j,i+1,j);
 						ps.add(new OcenjenaPoteza(poteza, matrika[i][j][1]+1, 0));
-
 					}else if(i+2 < 6) {
 							 if(plosca[i+2][j]== Polje.PRAZNO) {
 								if(matrika[i+1][j][1] == 0 && matrika[i][j][1]==0) {
@@ -283,8 +273,8 @@ public class Igra {
 								}else {
 									preskakujemo = false; 
 								}
-
 						}
+					
 					if(gor){
 						Poteza poteza = new Poteza(i,j,i,j-1);
 						ps.add(new OcenjenaPoteza(poteza, matrika[i][j][0]+1, 0));
@@ -303,9 +293,8 @@ public class Igra {
 							continue;
 						}
 						// torej zgoraj je nek krogec - preskakujemo
-
-
 					}
+					
 					if(dol) {
 						Poteza poteza = new Poteza(i,j,i,j+1);
 						ps.add(new OcenjenaPoteza(poteza, matrika[i][j+1][0]+1, 0));
@@ -318,7 +307,6 @@ public class Igra {
 						}else {
 							continue;
 						}
-
 					}
 					}
 				}
@@ -328,10 +316,7 @@ public class Igra {
 			for (int i = 0; i < 6; i++) {
 				for (int j = 0; j < 6; j++) {
 
-
-				// mislm da morm locit na vodoravno navpicno
 					if (plosca[i][j] == Polje.B) {
-
 
 					// na desno
 					boolean na_desno = false;
@@ -343,13 +328,11 @@ public class Igra {
 					if(i+1 < 6) {
 					if(plosca[i+1][j] == Polje.PRAZNO){
 						na_desno = true;
-
 					}
 					}
 					if(i-1 >=0) {
 					if(plosca[i-1][j]== Polje.PRAZNO) {
 						na_levo = true;
-
 					}
 					}
 					if(j+1 <6) {
@@ -380,9 +363,9 @@ public class Igra {
 								preskakujemo = false;
 							}
 						}
+					
 					if(na_desno) {
 						ps1.add(new Poteza(i,j,i+1,j));
-
 					}else if(i+2 < 6) {
 							 if(plosca[i+2][j]== Polje.PRAZNO) {
 								if(matrika[i+1][j][1] == 0 && matrika[i][j][1]==0) {
@@ -394,6 +377,7 @@ public class Igra {
 								}
 
 						}
+					
 					else if(gor){
 						ps1.add(new Poteza(i,j,i,j-1));
 					}else if(j-2 >= 0) {
@@ -410,9 +394,8 @@ public class Igra {
 							continue;
 						}
 						// torej zgoraj je nek krogec - preskakujemo
-
-
 					}
+					
 					if(dol) {
 						ps1.add(new Poteza(i,j,i,j+1));
 					}else if(j+1 <6) {
@@ -430,10 +413,8 @@ public class Igra {
 			}
 		}
 		return ps;
-			}
+		}
 		
-		
-
 
 	private Igralec cigavKot() {
 		int count_C = 0;
@@ -445,28 +426,18 @@ public class Igra {
 				if(plosca[i][j]== Polje.C) {
 					count_C = count_C +1 ;
 				}
-//			switch(plosca[i][i]) {
-//			case C: count_C += 1;break;
-//			case B: break;
-//			case PRAZNO: break;
 			}}
 		for(int i = 4; i< 6 && (count_C < 4 || count_B < 4); i++) {
 			for(int j = 4; j < 6; j ++ ) {
 				if(plosca[i][j] ==Polje.B) {
 					count_B = count_B + 1;
-					
 				}
-		
-
 			}
 		}
 		if (count_B == 4) { return Igralec.B; }
 		if (count_C == 4) { return Igralec.C; }
-
 		else { return null; }
 	}
-
-
 
 
 	/**
@@ -474,17 +445,16 @@ public class Igra {
 	 */
 
 // to vrne zmagovalca  ne pa kota
-	// ko vrne zmagovalca preveri nasprotnika
+// ko vrne zmagovalca preveri nasprotnika
 	public Igralec zmagovalnaPoteza() {
 			Igralec lastnik = cigavKot();
-//			if (lastnik != null) { return lastnik; }
 		return lastnik;
 	}
 	
 
-//	/**
-//	 * @return trenutno stanje igre
-//	 */
+	/**
+	 * @return trenutno stanje igre
+	 */
 
 	public Stanje stanje() {
 		// Ali imamo zmagovalca?
@@ -495,7 +465,6 @@ public class Igra {
 		if(t!= null & t == Igralec.B) {
 			return Stanje.ZMAGA_B;
 		}
-
 		else { if (naPotezi == Igralec.B) {
 						return Stanje.NA_POTEZI_B;
 					}
@@ -507,24 +476,21 @@ public class Igra {
 
 
 
-//
-//	/**
-//	 * Odigraj potezo p.
-//	 *
-//	 * @param p
-//	 * @return true, Äe je bila poteza uspeĹĄno odigrana
-//	 */
 
+	/**
+	 * Odigraj potezo p.
+	 *
+	 * @param p
+	 * @return true, ce je bila poteza uspesno odigrana
+	 */
 
 	public boolean odigraj(Poteza koncna) {
-
 
 		int zac_X = koncna.getX0();
 		int zac_Y = koncna.getY0();
 		int konc_X= koncna.getX();
 		int konc_Y = koncna.getY();
 
-//
 		boolean horizontalno = false;
 		boolean vertikalno = false;
 		boolean na_desno = false;
@@ -536,7 +502,6 @@ public class Igra {
 			return false;
 			// gremo navzkriz
 		}
-//
 		if( zac_X == konc_X) {
 			 vertikalno = true;
 			 if(zac_Y < konc_Y) {
@@ -544,7 +509,6 @@ public class Igra {
 			 }else {
 				 gor = true;
 			 }
-//
 		 }
 		 else {
 			 horizontalno = true;
@@ -554,13 +518,11 @@ public class Igra {
 				 na_levo = true;
 			 }
 		 }
-//
-//
-//		 // ugotovimo ali se premaknemo na levo ali na desno
-//		 // oziroma gor ali dol
-//		 // ce se premikamo vertikalno nas zanima samo zgornja ograja
-//		// ce se premikamo horizontalno nas zanima samo leva ograja
-//
+// ugotovimo ali se premaknemo na levo ali na desno
+// oziroma gor ali dol
+// ce se premikamo vertikalno nas zanima samo zgornja ograja
+// ce se premikamo horizontalno nas zanima samo leva ograja
+
 		 if (horizontalno) {
 			 if(plosca[konc_X][konc_Y] == Polje.PRAZNO) {
 				 if(na_levo) {
@@ -568,17 +530,11 @@ public class Igra {
 					 if ((zac_X - konc_X) ==  1) {
 						 int strosek = matrika[konc_X][zac_Y][1];
 						 int stanje = st_potezB - strosek - 1; 
-//						 st_potezB = st_potezB - strosek-1 ;
-
 						 if(stanje > 0) {
 							 st_potezB = st_potezB - strosek-1;
-							 
-							 
 							 return true;
-
 							 }
 						 if(stanje == 0) {
-						
 							plosca[zac_X][zac_Y] = naPotezi.getPolje();
 							naPotezi = naPotezi.nasprotnik();
 							st_potezB = 3;
@@ -590,7 +546,6 @@ public class Igra {
 							 }
 						 }
 					 // ce se premaknes za dva v levo - torej samo takrat ko nekoga preskocis(svojega igralca ali pa drugega)
-
 					 if((zac_X - konc_X) == 2) {
 						 if(plosca[zac_X - 1][zac_Y] != Polje.PRAZNO) {
 							 if(zac_X + 1 <6 & konc_X <6) {
@@ -600,56 +555,42 @@ public class Igra {
 							 // če preskočimo se steje kot en korak in je OK, ce je vmes zid, ni OK
 							 if (strosek1 >= 1 || strosek2 >=1 ) {
 								 return false;
-								 }
-							 
+								 } 
 							 else {
 								 int stanje = st_potezB - strosek1-strosek2 - 1; 
-								 
-								 
 								 if(stanje > 0) {
 									 st_potezB = st_potezB - strosek1 -strosek2 - 1;
-									 
 								 return true;
 								 }
 								 if(stanje == 0) {
-
 									 plosca[zac_X][zac_Y] = naPotezi.getPolje();
 									 naPotezi = naPotezi.nasprotnik();
 									 st_potezB = 3;
-									
 									 return true;
 								 	}
 								 if(stanje < 0 ){
-									 
 									 return false;
 								 	}
 							 }
 						 }
-						 
 						 else {
 							 return false;
 						 }
 						 }
-
 					 }
 					 if ((zac_X - konc_X) > 2) {
 						 return false;
 					 }
-
 					 na_levo = false;
-
 				 }
 
 				 if(na_desno) {
-
-
 					 if ((konc_X - zac_X) ==  1) {
 						 int strosek = matrika[zac_X][zac_Y][1];
 						 int stanje = st_potezB - strosek -1 ; 
 						 
 						 if(stanje > 0) {
-							 st_potezB = st_potezB - strosek -1;
-							
+							 st_potezB = st_potezB - strosek -1;	
 							 return true;
 						 }
 						 if(stanje == 0) {
@@ -657,18 +598,13 @@ public class Igra {
 							naPotezi = naPotezi.nasprotnik();
 							st_potezB = 3;
 							Vodja.naVrstiB = false;
-							
-							
 							return true;
-
 						 }
 						 if(stanje < 0 ){
-							 
 							 return false;
 							 }
 						 }
 					 // ce se premaknes za dva v desno
-
 					 if((konc_X - zac_X) == 2) {
 						// če preskocimo se steje kot en korak in je OK, ce je vmes zid, ni OK
 						 if(plosca[zac_X + 1][zac_Y]!= Polje.PRAZNO) {
@@ -677,29 +613,22 @@ public class Igra {
 							 if (strosek1 >= 1||strosek2 >= 1 ) {
 								 return false;
 								 }
-
 							 else {
 								 int stanje = st_potezB - strosek1 - strosek2 - 1;
-								 
-
 								 if(stanje > 0) {
 									 st_potezB = st_potezB - strosek1 - strosek2 - 1;
-									
 									 return true;
 								 }
 								 if(stanje == 0) {
 									 plosca[zac_X][zac_Y] = naPotezi.getPolje();
 									 naPotezi = naPotezi.nasprotnik();
 									 st_potezB = 3;
-									 
 									 return true;
 									 }
-								 if(stanje < 0 ){
-									 
+								 if(stanje < 0 ){	 
 									 return false;
 									 }
 							 }
-
 							 }
 						 else {
 							 return false;
@@ -707,7 +636,6 @@ public class Igra {
 						 }
 					 if((konc_X - zac_X) > 2) {
 						 return false;
-
 					 }
 					 na_desno = false;
 					 }
@@ -718,9 +646,7 @@ public class Igra {
 			 }
 			 horizontalno = false;
 		 }
-//
-//
-//
+
 		 if (vertikalno) {
 			 if(plosca[konc_X][konc_Y]== Polje.PRAZNO) {
 				 // ce se premaknemo za 1
@@ -730,24 +656,19 @@ public class Igra {
 						 int strosek = matrika[zac_X][zac_Y][0];
 						 int stanje = st_potezB - strosek-1;
 						 if(stanje > 0) {
-							 st_potezB = st_potezB - strosek-1;
-							 
+							 st_potezB = st_potezB - strosek-1;	 
 							 return true;
 						 }
 						 if(stanje == 0) {
 								 plosca[zac_X][zac_Y] = naPotezi.getPolje();
 								 naPotezi = naPotezi.nasprotnik();
 								 st_potezB = 3;
-								 
 								 return true;
 
 						 }
 						 if(stanje < 0 ){
-							 
 							 return false;
 							 }
-
-
 					 }
 					 if (zac_Y - konc_Y == 2) {
 						 if(plosca[zac_X][zac_Y-1]!= Polje.PRAZNO) {
@@ -758,57 +679,46 @@ public class Igra {
 							 }
 							 else {
 								 int stanje = st_potezB - strosek1 - strosek2 -1;
-								
+		
 								 if (stanje > 0 ) {
-									 st_potezB = st_potezB - strosek1 - strosek2 -1 ;
-									 
+									 st_potezB = st_potezB - strosek1 - strosek2 -1 ; 
 									 return true;
 								 }
 								 if(stanje == 0) {
 									 plosca[zac_X][zac_Y] = naPotezi.getPolje();
 									 naPotezi = naPotezi.nasprotnik();
 									 st_potezB = 3;
-									
-									 return true;
-									 
+									 return true; 
 								 }
 								 if(stanje < 0) {
 									 return false;
 								 }
-							
 								 }
 							 }
-
-
 						 }
 					 if(zac_Y - konc_Y > 2 ) {
 						 return false;
 					 }
 					 gor = false;
-
 					 }
-
 
 				 if(dol) {
 					 if(konc_Y -zac_Y== 1) {
 						 int strosek = matrika[konc_X][konc_Y][0];
 						 int stanje = st_potezB -strosek-1;
 						 if(stanje > 0) {
-							 st_potezB = st_potezB - strosek - 1;
-							 
+							 st_potezB = st_potezB - strosek - 1;	 
 							 return true;
 						 }
 						 if(stanje == 0) {
 							 plosca[zac_X][zac_Y] = naPotezi.getPolje();
 							 naPotezi = naPotezi.nasprotnik();
 							 st_potezB = 3;
-							 
 							 return true;
 						 }
 						 if(stanje < 0) {
 							 return false;
 						 }
-
 					 }
 					 if(konc_Y - zac_Y == 2) {
 						 if(plosca[zac_X][zac_Y + 1]!= Polje.PRAZNO) {
@@ -816,24 +726,17 @@ public class Igra {
 							 int strosek2 = matrika[konc_X][zac_Y+1][0];
 							 int stanje = st_potezB - strosek1 - strosek2 -1; 
 							 if(strosek1 >= 1|| strosek2 >= 1) {
-
 								 return false;
 								 }
 							 if(stanje > 0 ) {
-								 st_potezB = st_potezB - strosek1 - strosek2 -1;
-								 
+								 st_potezB = st_potezB - strosek1 - strosek2 -1; 
 								 return true;
-
 							 	}
 							 if(stanje == 0) {
 								 plosca[zac_X][zac_Y] = naPotezi.getPolje();
 								 naPotezi = naPotezi.nasprotnik();
-								
 								 st_potezB =3;
-								 
-								 
 								 return true;
-
 							 	}
 							 if(stanje < 0){
 								 return false;

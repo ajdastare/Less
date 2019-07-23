@@ -41,7 +41,6 @@ public class GlavnoOkno extends JFrame implements ActionListener {
 	
 	// Izbire v menujih
 	private JMenuItem igraClovekRacunalnik;
-	private JMenuItem igraRacunalnikClovek;
 	private JMenuItem igraClovekClovek;
 	/**
 	 * Ustvari novo glavno okno in pricni igrati igro.
@@ -64,10 +63,6 @@ public class GlavnoOkno extends JFrame implements ActionListener {
 		igraClovekRacunalnik = new JMenuItem("Clovek proti Racunalniku");
 		igra_menu.add(igraClovekRacunalnik);
 		igraClovekRacunalnik.addActionListener(this);
-		
-		igraRacunalnikClovek = new JMenuItem("Racunalnik proti Cloveku");
-		igra_menu.add(igraRacunalnikClovek);
-		igraRacunalnikClovek.addActionListener(this);
 		
 		igraClovekClovek = new JMenuItem("Clovek proti cloveku");
 		igra_menu.add(igraClovekClovek);
@@ -107,9 +102,7 @@ public class GlavnoOkno extends JFrame implements ActionListener {
 		if (e.getSource() == igraClovekRacunalnik) {
 			vodja.novaIgra(Vrsta_igralca.CLOVEK, Vrsta_igralca.RACUNALNIK);
 		}
-		if (e.getSource() == igraRacunalnikClovek) {
-			vodja.novaIgra(Vrsta_igralca.RACUNALNIK, Vrsta_igralca.CLOVEK);
-		}
+		
 		if(e.getSource()==igraClovekClovek) {
 			vodja.novaIgra(Vrsta_igralca.CLOVEK, Vrsta_igralca.CLOVEK);
 			
@@ -121,14 +114,13 @@ public class GlavnoOkno extends JFrame implements ActionListener {
 		if (vodja.igra == null) {
 			status.setText("Igra ni v teku.");
 		}
-//		
+	
 		else {
 			switch(vodja.igra.stanje()) {
 			case NA_POTEZI_B: status.setText("Na potezi je clovek"); break;
 			case NA_POTEZI_C: status.setText("Na potezi je racunalnik"); break;
 			case ZMAGA_B: status.setText("Zmagala je bela"); break;
 			case ZMAGA_C: status.setText("Zmagala je črna"); break;
-			case NEODLOCENO: status.setText("Neodločeno!"); break;
 			}
 		}
 		polje.repaint();

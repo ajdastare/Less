@@ -5,5 +5,4 @@ public enum Stanje {
 	NA_POTEZI_C,
 	ZMAGA_B,
 	ZMAGA_C,
-	NEODLOCENO;
 }

@@ -8,8 +8,7 @@ package logika;
 public enum Igralec {
 	C, B;
 
-	public Igralec nasprotnik() {
-		
+	public Igralec nasprotnik() {	
 		return (this == C ? B : C);
 	}
 
