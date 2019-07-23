@@ -13,6 +13,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import logika.Vodja;
+import logika.Vrsta_igralca;
 import logika.Igralec;
 
 
@@ -41,7 +42,7 @@ public class GlavnoOkno extends JFrame implements ActionListener {
 	// Izbire v menujih
 	private JMenuItem igraClovekRacunalnik;
 	private JMenuItem igraRacunalnikClovek;
-
+	private JMenuItem igraClovekClovek;
 	/**
 	 * Ustvari novo glavno okno in pricni igrati igro.
 	 */
@@ -60,13 +61,18 @@ public class GlavnoOkno extends JFrame implements ActionListener {
 		JMenu igra_menu = new JMenu("Igra");
 		menu_bar.add(igra_menu);
 
-		igraClovekRacunalnik = new JMenuItem("Älovek â raÄunalnik");
+		igraClovekRacunalnik = new JMenuItem("Clovek proti Racunalniku");
 		igra_menu.add(igraClovekRacunalnik);
 		igraClovekRacunalnik.addActionListener(this);
 		
-		igraRacunalnikClovek = new JMenuItem("RaÄunalnik â Älovek");
+		igraRacunalnikClovek = new JMenuItem("Racunalnik proti Cloveku");
 		igra_menu.add(igraRacunalnikClovek);
 		igraRacunalnikClovek.addActionListener(this);
+		
+		igraClovekClovek = new JMenuItem("Clovek proti cloveku");
+		igra_menu.add(igraClovekClovek);
+		igraClovekClovek.addActionListener(this);
+
 
 		// igralno polje
 		polje = new IgralnoPolje(vodja);
@@ -92,17 +98,21 @@ public class GlavnoOkno extends JFrame implements ActionListener {
 		
 		// zacnemo novo igro cloveka proti racunalniku
 		
-		vodja.novaIgra(Igralec.B);
+		vodja.novaIgra(Vrsta_igralca.CLOVEK, Vrsta_igralca.CLOVEK);
 	}
 	
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == igraClovekRacunalnik) {
-			vodja.novaIgra(Igralec.B);
+			vodja.novaIgra(Vrsta_igralca.CLOVEK, Vrsta_igralca.RACUNALNIK);
 		}
-		else if (e.getSource() == igraRacunalnikClovek) {
-			vodja.novaIgra(Igralec.C);
+		if (e.getSource() == igraRacunalnikClovek) {
+			vodja.novaIgra(Vrsta_igralca.RACUNALNIK, Vrsta_igralca.CLOVEK);
+		}
+		if(e.getSource()==igraClovekClovek) {
+			vodja.novaIgra(Vrsta_igralca.CLOVEK, Vrsta_igralca.CLOVEK);
+			
 		}
 		
 	}

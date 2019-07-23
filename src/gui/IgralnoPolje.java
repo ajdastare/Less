@@ -261,7 +261,7 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 
 		 Pozicija zacetna1 = new Pozicija(i,j);
 
-		if(vodja.naVrstiB) {
+		if(vodja.clovekNaVrsti) {
 			if(0 <= i && i < 6 &&
 					0 <= j && j < 6
 					) {
@@ -270,12 +270,17 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 //			
 			}
 
-		}else {
-			pozicija= zacetna1;
-//			
-
 		}
-	}
+//		if(vodja.naVrstiC){
+//			if(0 <= i && i < 6 &&
+//					0 <= j && j < 6
+//					) {
+//			pozicija= zacetna1;
+//			}
+//		}
+//			
+		}
+	
 
 
 
@@ -303,7 +308,7 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 
 
 
-		if (vodja.naVrstiB) {
+		if (vodja.clovekNaVrsti) {
 			if (0 <= i && i < 6 &&
 					0 <= j && j < 6 ) {
 
@@ -316,17 +321,18 @@ public class IgralnoPolje extends JPanel implements MouseListener {
 			}
 
 
-		if (vodja.naVrstiC) {
-				if (0 <= i && i < Igra.N &&
-						0.5 * LINE_WIDTH < di && di < 1.0 - 0.5 * LINE_WIDTH &&
-						0 <= j && j < Igra.N &&
-						0.5 * LINE_WIDTH < dj && dj < 1.0 - 0.5 * LINE_WIDTH) {
-//					
-				}
-				}
-		repaint();
-
-		}
+//		if (vodja.naVrstiC) {
+//			if (0 <= i && i < 6 &&
+//					0 <= j && j < 6 ) {
+//
+//				vodja.clovekovaPoteza(koncna);
+//
+//
+//			}
+//			repaint();
+//
+//		}
+	}
 
 
 

@@ -9,6 +9,7 @@ public enum Igralec {
 	C, B;
 
 	public Igralec nasprotnik() {
+		
 		return (this == C ? B : C);
 	}
 

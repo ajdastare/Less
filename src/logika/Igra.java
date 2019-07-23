@@ -1,7 +1,7 @@
 package logika;
 
 import java.util.*;
-
+import gui.GlavnoOkno;
 import inteligenca.OcenjenaPoteza;
 
 public class Igra {
@@ -18,6 +18,7 @@ public class Igra {
 	// Igralec, ki je trenutno na potezi.
 	// Vrednost je poljubna, ce je igre konec (se pravi, lahko je napacna).
 	public Igralec naPotezi;
+	public GlavnoOkno okno;
 
 	public static final Podstavek p1 = new Podstavek("1");
 	public static final Podstavek p2 = new Podstavek("2");
@@ -284,7 +285,7 @@ public class Igra {
 								}
 
 						}
-					else if(gor){
+					if(gor){
 						Poteza poteza = new Poteza(i,j,i,j-1);
 						ps.add(new OcenjenaPoteza(poteza, matrika[i][j][0]+1, 0));
 					}else if(j-2 >= 0) {
@@ -441,22 +442,23 @@ public class Igra {
 		// stetje za C
 		for(int i = 0;i < 2 && (count_C < 4|| count_B < 4); i ++) {
 			for(int j= 0;j < 2; j ++) {
-			switch(plosca[i][i]) {
-			case C: count_C += 1;break;
-			case B: break;
-			case PRAZNO: break;
-			}
-			}
-			}
+				if(plosca[i][j]== Polje.C) {
+					count_C = count_C +1 ;
+				}
+//			switch(plosca[i][i]) {
+//			case C: count_C += 1;break;
+//			case B: break;
+//			case PRAZNO: break;
+			}}
 		for(int i = 4; i< 6 && (count_C < 4 || count_B < 4); i++) {
 			for(int j = 4; j < 6; j ++ ) {
-			switch(plosca[i][i]) {
-			case C: break;
-			case B: count_B += 1;
-			case PRAZNO: break;
+				if(plosca[i][j] ==Polje.B) {
+					count_B = count_B + 1;
+					
+				}
+		
 
 			}
-		}
 		}
 		if (count_B == 4) { return Igralec.B; }
 		if (count_C == 4) { return Igralec.C; }
@@ -475,9 +477,10 @@ public class Igra {
 	// ko vrne zmagovalca preveri nasprotnika
 	public Igralec zmagovalnaPoteza() {
 			Igralec lastnik = cigavKot();
-			if (lastnik != null) { return lastnik; }
-		return null;
+//			if (lastnik != null) { return lastnik; }
+		return lastnik;
 	}
+	
 
 //	/**
 //	 * @return trenutno stanje igre
@@ -653,6 +656,8 @@ public class Igra {
 							plosca[zac_X][zac_Y] = naPotezi.getPolje();
 							naPotezi = naPotezi.nasprotnik();
 							st_potezB = 3;
+							Vodja.naVrstiB = false;
+							
 							
 							return true;
 
@@ -823,7 +828,9 @@ public class Igra {
 							 if(stanje == 0) {
 								 plosca[zac_X][zac_Y] = naPotezi.getPolje();
 								 naPotezi = naPotezi.nasprotnik();
+								
 								 st_potezB =3;
+								 
 								 
 								 return true;
 

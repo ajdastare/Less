@@ -27,23 +27,34 @@ public class Vodja {
 	// Igra, ki jo trenutno igramo.
 	public Igra igra;
 	int st_potezR = 3;
-
+// Ali je clovek igralecB ali C? 
+	public static Vrsta_igralca igralecB;
+	public static Vrsta_igralca igralecC;
+	public boolean clovekNaVrsti; 
+	
+	
 	public Igralec beli;
-	public boolean naVrstiB;
+	public Igralec crni;
+	public static boolean naVrstiB;
 	public boolean naVrstiC;
+	public boolean naVrstiR;
 	//prej tu clovek na vrsti 
 		
 	public Vodja(GlavnoOkno okno) {
 		random = new Random();
 		this.okno = okno;
-		naVrstiB = true;
+		clovekNaVrsti = false;
+//		naVrstiB = false;
 	}
-		public void novaIgra(Igralec beli) {
+		public void novaIgra(Vrsta_igralca igralecB, Vrsta_igralca igralecC) {
 //		// Ustvarimo novo igro
 		this.igra = new Igra();
-		
-		this.beli = beli;
-//		igramo();
+		Vodja.igralecB = igralecB;
+		Vodja.igralecC = igralecC;
+				
+//		this.beli = beli;
+//		this.crni = beli.nasprotnik();
+		igramo();
 	}
 //	
 	public void igramo () {
@@ -55,12 +66,18 @@ public class Vodja {
 		case ZMAGA_C: 
 				break;
 		case NA_POTEZI_B:
+			if (igralecB ==Vrsta_igralca.CLOVEK) clovekNaVrsti = true;
+			else {
+				racunalnikovaPoteza(Igralec.B);
+			}
+			break;
 		case NA_POTEZI_C: 
-			if (igra.naPotezi == beli) {
-				naVrstiB = true;
-			} else {
-				racunalnikovaPoteza();
-			}			
+			if(igralecC == Vrsta_igralca.CLOVEK) clovekNaVrsti = true;
+			else{
+				clovekNaVrsti = false;
+				racunalnikovaPoteza(Igralec.C);
+			}
+			
 		}
 		okno.osveziGUI();
 	}
@@ -94,9 +111,9 @@ public class Vodja {
 		return poteza;
 	}
 	
-	public void racunalnikovaPoteza() {
+	public void racunalnikovaPoteza(Igralec igralec) {
 //		List<OcenjenaPoteza> ocenjenePoteze = Minimax.oceniPoteze (igra, 3, beli.nasprotnik());
-		List<OcenjenaPoteza> ocenjenePoteze = Racunalnik.oceniPoteze(igra,beli.nasprotnik());
+		List<OcenjenaPoteza> ocenjenePoteze = Racunalnik.oceniPoteze(igra,igralec);
 
 		OcenjenaPoteza  poteza1 = maxPoteza(ocenjenePoteze, st_potezR);
 //		Poteza poteza = Minimax.maxPoteza(ocenjenePoteze);
@@ -123,15 +140,29 @@ public class Vodja {
 		if(st_potezR >0) {
 			Polje[][] plosca = igra.getPlosca();
 			plosca[zac_X][zac_Y]= Polje.PRAZNO;
-			plosca[konc_X][konc_Y]= Polje.C;
-			
-			
+			if(igralec == Igralec.C) {
+				plosca[konc_X][konc_Y]=Polje.C;
+				
+			}
+			if(igralec == Igralec.B) {
+				plosca[konc_X][konc_Y]=Polje.B;
+				
+				
+			}	
 		}
 		if(st_potezR == 0) {
 			Polje[][] plosca = igra.getPlosca();
 			plosca[zac_X][zac_Y]= Polje.PRAZNO;
-			plosca[konc_X][konc_Y]= Polje.C;
-			igra.naPotezi = beli;
+			if(igralec == Igralec.C) {
+				plosca[konc_X][konc_Y]=Polje.C;
+				
+			}
+			if(igralec == Igralec.B) {
+				plosca[konc_X][konc_Y]=Polje.B;
+				
+				
+			}	
+			igra.naPotezi = igralec.nasprotnik();
 			st_potezR =3;
 		}
 		if(st_potezR < 0 ) {
@@ -145,7 +176,9 @@ public class Vodja {
 	}
 //	
 	public void clovekovaPoteza(Poteza koncna) {
+		Igralec naPotezi = igra.naPotezi;
 		if (igra.odigraj(koncna)) {
+			
 
 			
 
@@ -156,7 +189,14 @@ public class Vodja {
 //			
 			Polje[][] plosca = igra.getPlosca();
 			plosca[zacX][zacY]= Polje.PRAZNO;
+
+			if(naPotezi == Igralec.C) {
+				plosca[koncX][koncY] = Polje.C;
+				
+			}
+			if(naPotezi == Igralec.B) {
 			plosca[koncX][koncY]= Polje.B;
+			}
 			
 //			naVrstiB = false;
 			okno.repaint();
